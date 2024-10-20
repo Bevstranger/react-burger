@@ -1,9 +1,9 @@
-#root {
+/* #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
-  text-align: center;
-}
+  text-align: center; 
+ */
 
 .logo {
   height: 6em;
@@ -39,4 +39,14 @@
 
 .read-the-docs {
   color: #888;
+}
+
+.app__main {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  position: relative;
+  justify-content: center;
+  margin-top: 40px;
+  gap: 40px;
 }

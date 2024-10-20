@@ -1,0 +1,28 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-left: 16px;
+    align-items: flex-end;
+}
+
+.total {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.total_icon {
+    transform: scale(1.5);
+}
+
+.draggable {
+    cursor: grabbing;
+    margin-right: 8px;
+    
+}
+
+.listIngredients {
+    display: flex;
+    align-items: center;
+}
