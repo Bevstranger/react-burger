@@ -5,7 +5,6 @@ import {
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useState } from "react";
-import imgBun1 from "../../images/bun-01.png";
 import imgBun2 from "../../images/bun-02.png";
 import imgSauce3 from "../../images/sauce-03.png";
 import styles from "./Burger-Constructor.module.css";
