@@ -1,8 +1,9 @@
 /* #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 2rem;`
   text-align: center; 
+}
  */
 
 .logo {
@@ -41,7 +42,7 @@
   color: #888;
 }
 
-.app__main {
+.app_main {
   max-width: 1280px;
   margin: 0 auto;
   display: flex;

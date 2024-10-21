@@ -41,9 +41,7 @@ function AppHeader() {
           style={{ display: "flex", alignItems: "center", gap: 8 }}
         >
           <ListIcon type="primary" />
-          <span style={{ color: "white", whiteSpace: "nowrap" }}>
-            Лента заказов
-          </span>
+          <span style={{ color: "white" }}>Лента заказов</span>
         </Button>
       </nav>
       <div
@@ -63,9 +61,7 @@ function AppHeader() {
           style={{ display: "flex", alignItems: "end", gap: 8 }}
         >
           <ProfileIcon type="primary" />
-          <span style={{ color: "white", whiteSpace: "nowrap" }}>
-            Личный кабинет
-          </span>
+          <span style={{ color: "white" }}>Личный кабинет</span>
         </Button>
       </div>
     </header>

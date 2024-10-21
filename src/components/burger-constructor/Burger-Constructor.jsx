@@ -21,7 +21,7 @@ function BurgerInredients() {
           isLocked={true}
           text="Краторная булка N-200i (верх)"
           price={20}
-          thumbnail={imgBun1}
+          thumbnail={imgBun2}
         />
         <div className={styles.listIngredients}>
           <span className={styles.draggable}>
