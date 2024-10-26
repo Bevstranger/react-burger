@@ -10,6 +10,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    margin-bottom: 40px;
 }
 
 .total_icon {
@@ -24,5 +25,33 @@
 
 .listIngredients {
     display: flex;
-    align-items: center;
+    
+    flex-direction: column;
+    max-height: 395px;
+    overflow: auto;
 }
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: auto;
+    max-height: 395px;
+}
+
+.listConstructorIngredients {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: auto;
+    max-height: 395px;
+}
+
+.detailsModal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 120px 100px;
+}
+
