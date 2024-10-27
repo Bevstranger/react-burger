@@ -3,16 +3,9 @@ import Bur from "./components/burger-ingredients/Burger-Ingredients";
 import Constructor from "./components/burger-constructor/Burger-Constructor";
 import styles from "./app.module.css";
 import React from "react";
+import { getData } from "./api/api";
 
 const URL = "https://norma.nomoreparties.space/api/ingredients";
-const getData = async (url) => {
-  const response = await fetch(url);
-  const data = await response.json();
-  if (!response.ok) {
-    throw new Error(data.message);
-  }
-  return data;
-};
 
 function App() {
   const [error, setError] = React.useState(null);
@@ -27,21 +20,7 @@ function App() {
 
   if (error) {
     return (
-      <div
-        style={{
-          position: "absolute",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "red",
-          opacity: "0.9",
-          inset: 0,
-          zIndex: 100,
-          width: 400,
-          height: 400,
-        }}
-        onClick={() => setError(null)}
-      >
+      <div className={styles.error} onClick={() => setError(null)}>
         {error}
       </div>
     );
