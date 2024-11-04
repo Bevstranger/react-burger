@@ -1,37 +1,40 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import AppHeader from "./components/app-header/App-Header";
+import Bur from "./components/burger-ingredients/Burger-Ingredients";
+import Constructor from "./components/burger-constructor/Burger-Constructor";
+import styles from "./app.module.css";
+import React from "react";
+import { getData } from "./api/api";
+
+const URL = "https://norma.nomoreparties.space/api/ingredients";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [error, setError] = React.useState(null);
+  const [ingredients, setIngredients] = React.useState([]);
+  React.useEffect(() => {
+    getData(URL)
+      .then((data) => setIngredients(data.data))
+      .catch((error) => {
+        setError(error.message + " Ошибка при получении ингредиентов");
+      });
+  }, []);
+
+  if (error) {
+    return (
+      <div className={styles.error} onClick={() => setError(null)}>
+        {error}
+      </div>
+    );
+  }
 
   return (
     <>
-      <Tab active={true} value={1} onClick={() => {}} />
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <AppHeader />
+      <main className={styles.app_main}>
+        <Bur data={ingredients} />
+        <Constructor data={ingredients} />
+      </main>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
