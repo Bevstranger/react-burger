@@ -34,5 +34,10 @@ export default [
         { allowConstantExport: true },
       ],
     },
+    overrideConfig: {
+      linterOptions: {
+          reportUnusedDisableDirectives: "true",
+      }
+    }
   },
 ]
