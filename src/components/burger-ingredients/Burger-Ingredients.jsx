@@ -4,6 +4,7 @@ import styles from "./burger-ingredients.module.css";
 import Item from "./burger-ingredients-item";
 import PropTypes from "prop-types";
 
+
 function BurgerIngredients({ data }) {
   const [current, setCurrent] = useState("Булки");
 
@@ -135,3 +136,4 @@ const WrapperGroup = React.forwardRef(({ title, children }, ref) => (
     <div className={`mb-10 mt-6 ${styles.list}`}>{children}</div>
   </div>
 ));
+
