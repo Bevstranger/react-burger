@@ -2,10 +2,13 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useState, useRef } from "react";
 import styles from "./burger-ingredients.module.css";
 import Item from "./burger-ingredients-item";
-import PropTypes from "prop-types";
 
+import { useSelector } from "react-redux";
 
-function BurgerIngredients({ data }) {
+function BurgerIngredients() {
+  const data = useSelector((state) => state.ing.data);
+  const dataIng = useSelector((state) => state.construct.data);
+
   const [current, setCurrent] = useState("Булки");
 
   const bunRef = useRef(null);
@@ -58,7 +61,16 @@ function BurgerIngredients({ data }) {
       <div className={`mt-10 ${styles.ingredients}`}>
         <WrapperGroup title={"Булки"} ref={bunRef}>
           {buns.map(({ ...data }) => (
-            <Item key={data._id} {...data} />
+            <Item
+              key={data._id}
+              {...data}
+              id={data._id}
+              count={
+                dataIng?.filter((item) => item?.name === data.name).length === 1
+                  ? 2
+                  : 0
+              }
+            />
           ))}
         </WrapperGroup>
         <WrapperGroup title={"Соусы"} ref={sauceRef}>
@@ -74,6 +86,7 @@ function BurgerIngredients({ data }) {
               carbohydrates,
             }) => (
               <Item
+                count={dataIng?.filter((item) => item?.name === name).length}
                 key={_id}
                 image={image}
                 name={name}
@@ -82,6 +95,7 @@ function BurgerIngredients({ data }) {
                 calories={calories}
                 proteins={proteins}
                 carbohydrates={carbohydrates}
+                id={_id}
               />
             )
           )}
@@ -107,6 +121,8 @@ function BurgerIngredients({ data }) {
                 calories={calories}
                 proteins={proteins}
                 carbohydrates={carbohydrates}
+                id={_id}
+                count={dataIng?.filter((item) => item?.name === name).length}
               />
             )
           )}
@@ -116,18 +132,6 @@ function BurgerIngredients({ data }) {
   );
 }
 
-BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      image: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      price: PropTypes.number.isRequired,
-      type: PropTypes.string.isRequired,
-      _id: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-};
-
 export default BurgerIngredients;
 
 const WrapperGroup = React.forwardRef(({ title, children }, ref) => (
@@ -136,4 +140,3 @@ const WrapperGroup = React.forwardRef(({ title, children }, ref) => (
     <div className={`mb-10 mt-6 ${styles.list}`}>{children}</div>
   </div>
 ));
-

@@ -7,8 +7,27 @@ import {
 import PropTypes from "prop-types";
 import styles from "./burger-ingredients.module.css";
 import IngredientDetails from "../ingredient-details/ingredient-details";
+import { useDrag } from "react-dnd";
+import { useSelector } from "react-redux";
 
-function Item({ image, name, price, fat, calories, proteins, carbohydrates }) {
+function Item({
+  image,
+  name,
+  price,
+  fat,
+  calories,
+  proteins,
+  carbohydrates,
+  id,
+  count,
+}) {
+  const [{ opacity }, dragRef] = useDrag({
+    type: "ingredients",
+    item: { id },
+    collect: (monitor) => ({
+      opacity: monitor.isDragging() ? 0.5 : 1,
+    }),
+  });
   const [showModal, setShowModal] = useState(false);
   return (
     <>
@@ -24,10 +43,12 @@ function Item({ image, name, price, fat, calories, proteins, carbohydrates }) {
         </Modal>
       )}
       <div
+        ref={dragRef}
+        style={{ opacity }}
         onClick={() => setShowModal(!showModal)}
         className={`text text_type_main-default mb-2 ${styles.item}`}
       >
-        <Counter count={0} size="default" />
+        <Counter count={count} size="default" />
         <img className="ml-4 mr-4" src={image} alt={name} />
         <div className={`mt-1 mb-1 ${styles.price}`}>
           <span className="text text_type_digits-default mr-2">{price}</span>

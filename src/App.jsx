@@ -3,19 +3,20 @@ import Bur from "./components/burger-ingredients/Burger-Ingredients";
 import Constructor from "./components/burger-constructor/Burger-Constructor";
 import styles from "./app.module.css";
 import React from "react";
-import { getData } from "./api/api";
+import { ingredientsRequest } from "./services/ingredientsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
-const URL = "https://norma.nomoreparties.space/api/ingredients";
+// const URL = "https://norma.nomoreparties.space/api/ingredients";
 
 function App() {
-  const [error, setError] = React.useState(null);
-  const [ingredients, setIngredients] = React.useState([]);
+  const dispatch = useDispatch();
+  const error = useSelector((state) => state.ing.error);
+  const ingredients = useSelector((state) => state.ing.data);
+
   React.useEffect(() => {
-    getData(URL)
-      .then((data) => setIngredients(data.data))
-      .catch((error) => {
-        setError(error.message + " Ошибка при получении ингредиентов");
-      });
+    dispatch(ingredientsRequest());
   }, []);
 
   if (error) {
@@ -30,8 +31,10 @@ function App() {
     <>
       <AppHeader />
       <main className={styles.app_main}>
-        <Bur data={ingredients} />
-        <Constructor data={ingredients} />
+        <DndProvider backend={HTML5Backend}>
+          <Bur />
+          <Constructor />
+        </DndProvider>
       </main>
     </>
   );
