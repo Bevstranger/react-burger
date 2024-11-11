@@ -35,13 +35,12 @@ function BurgerIngredients() {
     drop(item) {
       const dragElement = dataIng.find((el) => el._id === item.id);
 
-      dispatch(addIngredient({ ...dragElement, _id: uuid() }));
+      dispatch(addIngredient({ ...dragElement, id: uuid() }));
     },
   });
 
   const [showModal, setShowModal] = useState(false);
   const ingredients = data.filter((item) => item.type !== "bun");
-  console.log(ingredients);
 
   const moveCard = (dragIndex, hoverIndex) => {
     dispatch(
@@ -70,10 +69,10 @@ function BurgerIngredients() {
           <p className="text text_type_main-medium">Выберите ингредиенты</p>
         ) : (
           <div className={styles.listIngredients}>
-            {ingredients.map(({ image, name, price, _id }, index) => (
+            {ingredients.map(({ image, name, price, id }, index) => (
               <ConstItem
-                id={_id}
-                key={_id + index}
+                id={id}
+                key={id}
                 image={image}
                 name={name}
                 price={price}

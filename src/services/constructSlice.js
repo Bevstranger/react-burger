@@ -23,7 +23,7 @@ export const constructSlice = createSlice({
         deleteIngredient: (state, action) => {
 
             
-            state.data = state.data.filter((item) => item._id !== action.payload);
+            state.data = state.data.filter((item) => item.id !== action.payload);
         },
 
         reorderIngredients: (state, action) => {
