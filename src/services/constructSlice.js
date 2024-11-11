@@ -26,11 +26,16 @@ export const constructSlice = createSlice({
             state.data = state.data.filter((item) => item._id !== action.payload);
         },
 
-        updateIngredients: (state, action) => {
-            state.data = action.payload;
+        reorderIngredients: (state, action) => {
+            console.log(action.payload);
+            const { from: dragIndex, to: hoverIndex } = action.payload;
+            const dragItem = state.data[dragIndex];
+            state.data[dragIndex] = state.data[hoverIndex];
+            state.data[hoverIndex] = dragItem;
         },
+
     },
 });
 
 
-export const { addIngredient, deleteIngredient } = constructSlice.actions;
+export const { addIngredient, deleteIngredient, reorderIngredients } = constructSlice.actions;

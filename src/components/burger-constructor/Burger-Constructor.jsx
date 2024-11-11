@@ -13,6 +13,7 @@ import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import { useSelector, useDispatch } from "react-redux";
 import { addIngredient } from "../../services/constructSlice";
+import { reorderIngredients } from "../../services/constructSlice";
 
 function BurgerIngredients() {
   const dispatch = useDispatch();
@@ -38,6 +39,16 @@ function BurgerIngredients() {
   const [showModal, setShowModal] = useState(false);
   const ingredients = data.filter((item) => item.type !== "bun");
   console.log(ingredients);
+
+  const moveCard = (dragIndex, hoverIndex) => {
+    dispatch(
+      reorderIngredients({
+        from: dragIndex,
+        to: hoverIndex,
+      })
+    );
+  };
+
   return (
     <section>
       <div
@@ -63,6 +74,8 @@ function BurgerIngredients() {
                 image={image}
                 name={name}
                 price={price}
+                moveCard={moveCard}
+                index={index}
               />
             ))}
           </div>
