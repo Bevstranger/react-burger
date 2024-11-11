@@ -8,19 +8,20 @@ import PropTypes from "prop-types";
 import styles from "./burger-ingredients.module.css";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import { useDrag } from "react-dnd";
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { setIngredientsDetails } from "../../services/ingrenietsDetailsSlice";
 
-function Item({
-  image,
-  name,
-  price,
-  fat,
-  calories,
-  proteins,
-  carbohydrates,
-  id,
-  count,
-}) {
+function Item(props) {
+  const {
+    image,
+    name,
+    price,
+
+    count,
+    id,
+  } = props;
+  const dispatch = useDispatch();
+
   const [{ opacity }, dragRef] = useDrag({
     type: "ingredients",
     item: { id },
@@ -37,15 +38,15 @@ function Item({
           onClose={setShowModal}
           title={"Детали ингредиента"}
         >
-          <IngredientDetails
-            {...{ name, image, calories, proteins, fat, carbohydrates }}
-          />
+          <IngredientDetails />
         </Modal>
       )}
       <div
         ref={dragRef}
         style={{ opacity }}
-        onClick={() => setShowModal(!showModal)}
+        onClick={() => {
+          dispatch(setIngredientsDetails(props)), setShowModal(!showModal);
+        }}
         className={`text text_type_main-default mb-2 ${styles.item}`}
       >
         <Counter count={count} size="default" />
@@ -60,14 +61,14 @@ function Item({
   );
 }
 
-Item.propTypes = {
-  image: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  fat: PropTypes.number.isRequired,
-  calories: PropTypes.number.isRequired,
-  proteins: PropTypes.number.isRequired,
-  carbohydrates: PropTypes.number.isRequired,
-};
+// Item.propTypes = {
+//   image: PropTypes.string.isRequired,
+//   name: PropTypes.string.isRequired,
+//   price: PropTypes.number.isRequired,
+//   fat: PropTypes.number.isRequired,
+//   calories: PropTypes.number.isRequired,
+//   proteins: PropTypes.number.isRequired,
+//   carbohydrates: PropTypes.number.isRequired,
+// };
 
 export default Item;

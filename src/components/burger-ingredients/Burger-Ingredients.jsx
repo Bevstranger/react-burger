@@ -74,58 +74,26 @@ function BurgerIngredients() {
           ))}
         </WrapperGroup>
         <WrapperGroup title={"Соусы"} ref={sauceRef}>
-          {sauces.map(
-            ({
-              image,
-              name,
-              price,
-              _id,
-              fat,
-              calories,
-              proteins,
-              carbohydrates,
-            }) => (
-              <Item
-                count={dataIng?.filter((item) => item?.name === name).length}
-                key={_id}
-                image={image}
-                name={name}
-                price={price}
-                fat={fat}
-                calories={calories}
-                proteins={proteins}
-                carbohydrates={carbohydrates}
-                id={_id}
-              />
-            )
-          )}
+          {sauces.map(({ name, _id, ...data }) => (
+            <Item
+              count={dataIng?.filter((item) => item?.name === name).length}
+              key={_id}
+              name={name}
+              id={_id}
+              {...data}
+            />
+          ))}
         </WrapperGroup>
         <WrapperGroup title={"Начинки"} ref={fillingRef}>
-          {fillings.map(
-            ({
-              image,
-              name,
-              price,
-              _id,
-              fat,
-              calories,
-              proteins,
-              carbohydrates,
-            }) => (
-              <Item
-                key={_id}
-                image={image}
-                name={name}
-                price={price}
-                fat={fat}
-                calories={calories}
-                proteins={proteins}
-                carbohydrates={carbohydrates}
-                id={_id}
-                count={dataIng?.filter((item) => item?.name === name).length}
-              />
-            )
-          )}
+          {fillings.map(({ name, _id, ...data }) => (
+            <Item
+              key={_id}
+              name={name}
+              id={_id}
+              {...data}
+              count={dataIng?.filter((item) => item?.name === name).length}
+            />
+          ))}
         </WrapperGroup>
       </div>
     </section>

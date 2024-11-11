@@ -1,14 +1,10 @@
-import PropTypes from "prop-types";
 import styles from "../burger-ingredients/burger-ingredients.module.css";
+import { useSelector } from "react-redux";
 
-const IngredientDetails = ({
-  name,
-  image,
-  calories,
-  proteins,
-  fat,
-  carbohydrates,
-}) => {
+const IngredientDetails = () => {
+  const { name, image, calories, proteins, fat, carbohydrates } = useSelector(
+    (state) => state.ingredientsDetails
+  );
   return (
     <div className={styles.modalItem}>
       <img src={image} alt={name} />
@@ -19,15 +15,6 @@ const IngredientDetails = ({
       </p>
     </div>
   );
-};
-
-IngredientDetails.propTypes = {
-  name: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
-  calories: PropTypes.number.isRequired,
-  proteins: PropTypes.number.isRequired,
-  fat: PropTypes.number.isRequired,
-  carbohydrates: PropTypes.number.isRequired,
 };
 
 export default IngredientDetails;

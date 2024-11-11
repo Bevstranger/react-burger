@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { ingSlice } from "./ingredientsSlice";
 import { constructSlice } from "./constructSlice";
+import { ingredientsDetailsSlice } from "./ingrenietsDetailsSlice";
 
 
 
@@ -8,7 +9,8 @@ import { constructSlice } from "./constructSlice";
 const store = configureStore({
     reducer: {
         ing: ingSlice.reducer,
-        construct: constructSlice.reducer
+        construct: constructSlice.reducer,
+        ingredientsDetails: ingredientsDetailsSlice.reducer
         
     }, 
     
