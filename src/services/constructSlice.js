@@ -22,12 +22,12 @@ export const constructSlice = createSlice({
 
         deleteIngredient: (state, action) => {
 
-            console.log(state);
+            
             state.data = state.data.filter((item) => item._id !== action.payload);
         },
 
         reorderIngredients: (state, action) => {
-            console.log(action.payload);
+            
             const { from: dragIndex, to: hoverIndex } = action.payload;
             const dragItem = state.data[dragIndex];
             state.data[dragIndex] = state.data[hoverIndex];

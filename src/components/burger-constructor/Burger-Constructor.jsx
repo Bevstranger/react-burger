@@ -14,6 +14,7 @@ import OrderDetails from "../order-details/order-details";
 import { useSelector, useDispatch } from "react-redux";
 import { addIngredient } from "../../services/constructSlice";
 import { reorderIngredients } from "../../services/constructSlice";
+import { postOrder } from "../../services/orderDetailsSlice";
 
 function BurgerIngredients() {
   const dispatch = useDispatch();
@@ -26,6 +27,8 @@ function BurgerIngredients() {
     }
     return total + ingredient.price;
   }, 0);
+
+  const ingredientsIds = data.map((item) => item._id);
 
   const [, dropTarget] = useDrop({
     accept: "ingredients",
@@ -103,7 +106,11 @@ function BurgerIngredients() {
         <Button
           htmlType="button"
           type="primary"
-          onClick={() => setShowModal(!showModal)}
+          onClick={() => {
+            dispatch(postOrder(ingredientsIds));
+
+            setShowModal(!showModal);
+          }}
         >
           Оформить заказ
         </Button>
