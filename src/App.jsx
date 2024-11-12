@@ -8,12 +8,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
-// const URL = "https://norma.nomoreparties.space/api/ingredients";
+
 
 function App() {
   const dispatch = useDispatch();
   const error = useSelector((state) => state.ing.error);
-  const ingredients = useSelector((state) => state.ing.data);
+
 
   React.useEffect(() => {
     dispatch(ingredientsRequest());

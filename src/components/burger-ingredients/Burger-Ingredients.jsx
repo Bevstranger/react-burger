@@ -7,7 +7,9 @@ import { useSelector } from "react-redux";
 
 function BurgerIngredients() {
   const data = useSelector((state) => state.ing.data);
-  const dataIng = useSelector((state) => state.construct.data);
+  const dataIng = useSelector((state) => state.construct.data.ingredients);
+  const dataBuns = useSelector((state) => state.construct.data.buns);
+
 
   const [current, setCurrent] = useState("Булки");
 
@@ -60,13 +62,13 @@ function BurgerIngredients() {
       </div>
       <div className={`mt-10 ${styles.ingredients}`}>
         <WrapperGroup title={"Булки"} ref={bunRef}>
-          {buns.map(({ ...data }) => (
+          {buns.map((data) => (
             <Item
               key={data._id}
               {...data}
               id={data._id}
               count={
-                dataIng?.filter((item) => item?.name === data.name).length === 1
+                dataBuns?.filter((item) => item?._id === data._id).length === 1
                   ? 2
                   : 0
               }

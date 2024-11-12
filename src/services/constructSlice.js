@@ -3,37 +3,30 @@ import { createSlice } from "@reduxjs/toolkit";
 export const constructSlice = createSlice({
     name: "construct",
     initialState: {
-        data: [],
-        
+        data: {
+            buns: [],
+            ingredients: []
+        },
     },
     reducers: {
         addIngredient: (state, action) => {
             if (action.payload.type === "bun") {
-                const bunIndex = state.data.findIndex((item) => item.type === "bun");
-                if (bunIndex !== -1) {
-                    state.data[bunIndex] = action.payload;
-                } else {
-                    state.data.push(action.payload);
-                }
+                state.data.buns = [action.payload];
             } else {
-                state.data.push(action.payload);
+                state.data.ingredients.push(action.payload);
             }
         },
-
         deleteIngredient: (state, action) => {
-
-            
-            state.data = state.data.filter((item) => item.id !== action.payload);
+            state.data.ingredients = state.data.ingredients.filter(
+                (item) => item.id !== action.payload
+            );
         },
-
         reorderIngredients: (state, action) => {
-            
             const { from: dragIndex, to: hoverIndex } = action.payload;
-            const dragItem = state.data[dragIndex];
-            state.data[dragIndex] = state.data[hoverIndex];
-            state.data[hoverIndex] = dragItem;
+            const ingredients = state.data.ingredients;
+            const [dragItem] = ingredients.splice(dragIndex, 1);
+            ingredients.splice(hoverIndex, 0, dragItem);
         },
-
     },
 });
 

@@ -5,7 +5,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrop } from "react-dnd";
 import { v4 as uuid } from "uuid";
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import loading from "../../images/loading.svg";
 import styles from "./burger-constructor.module.css";
 import ConstItem from "../burger-constructor/burger-constructor-item";
@@ -19,16 +19,23 @@ import { postOrder } from "../../services/orderDetailsSlice";
 function BurgerIngredients() {
   const dispatch = useDispatch();
   const dataIng = useSelector((state) => state.ing.data);
-  const data = useSelector((state) => state.construct.data);
-  const buns = data.filter((item) => item.type === "bun");
-  const price = data.reduce((total, ingredient) => {
-    if (ingredient.type === "bun") {
-      return total + ingredient.price * 2;
-    }
-    return total + ingredient.price;
-  }, 0);
+  const buns = useSelector((state) => state.construct.data.buns);
+  const ingredients = useSelector((state) => state.construct.data.ingredients);
 
-  const ingredientsIds = data.map((item) => item._id);
+  const priceIngredient = useMemo(
+    () =>
+      ingredients.reduce((total, ingredient) => {
+        return total + ingredient.price;
+      }, 0),
+    [ingredients]
+  );
+
+  const priceBuns = buns[0]?.price ? buns[0].price * 2 : 0;
+
+  const ingredientsIds = useMemo(
+    () => ingredients.map((item) => item._id),
+    [ingredients]
+  );
 
   const [, dropTarget] = useDrop({
     accept: "ingredients",
@@ -40,7 +47,6 @@ function BurgerIngredients() {
   });
 
   const [showModal, setShowModal] = useState(false);
-  const ingredients = data.filter((item) => item.type !== "bun");
 
   const moveCard = (dragIndex, hoverIndex) => {
     dispatch(
@@ -65,7 +71,7 @@ function BurgerIngredients() {
           thumbnail={buns[0]?.image ? buns[0].image : loading}
           extraClass={styles.buns}
         />
-        {data.length === 0 ? (
+        {ingredients.length === 0 ? (
           <p className="text text_type_main-medium">Выберите ингредиенты</p>
         ) : (
           <div className={styles.listIngredients}>
@@ -92,7 +98,9 @@ function BurgerIngredients() {
         />
       </div>
       <div className={`${styles.total} mr-4 mt-10`}>
-        <div className="text text_type_digits-medium mr-2 mb-1">{price}</div>
+        <div className="text text_type_digits-medium mr-2 mb-1">
+          {priceBuns + priceIngredient}
+        </div>
         <div className={`${styles.total_icon} mr-10`}>
           <CurrencyIcon type="primary" />
         </div>
