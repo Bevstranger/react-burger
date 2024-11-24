@@ -1,41 +1,51 @@
-
 .tabs {
-    display: flex;
+  display: flex;
 }
 
 .ingredients {
-    width: 600px;
-    height: 612px;
-    overflow: auto;
+  width: 600px;
+  height: 612px;
+  overflow: auto;
 }
 
 .list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 24px;
-    
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
 }
 
 .item {
-    list-style: none;
-    width: 272px;
-    height: 208px;
-    position: relative;
+  list-style: none;
+  width: 272px;
+  height: 208px;
+  position: relative;
+  text-decoration: none;
+  color: white;
 }
 
 .price {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .name {
-    text-Align: center
+  text-align: center;
 }
 
 .modalItem {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 32px;
-    padding: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  padding: 64px;
+}
+
+.link {
+  text-decoration: none;
+  color: white;}
+
+.link :hover {
+  text-decoration: none;
+  color: white;
+  
 }

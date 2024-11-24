@@ -1,6 +1,6 @@
-import styles from "../burger-constructor/Burger-Constructor.module.css";
-import imgDone from "../../images/done.png";
-import { useSelector } from "react-redux";
+import styles from '../burger-constructor/burger-constructor.module.css';
+import imgDone from '../../images/done.png';
+import { useSelector } from 'react-redux';
 
 const OrderDetails = () => {
   const data = useSelector((state) => state.orderDetails);

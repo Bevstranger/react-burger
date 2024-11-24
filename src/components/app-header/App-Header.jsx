@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import {
   Button,
   BurgerIcon,
@@ -6,8 +7,17 @@ import {
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./app-header.module.css";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { ingredientsRequest } from "../../services/ingredientsSlice";
 
 function AppHeader() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(ingredientsRequest());
+  }, [dispatch]);
+
   return (
     <header className={styles.headerWrapper}>
       <nav className={styles.navWrapper}>
@@ -17,7 +27,9 @@ function AppHeader() {
           extraClass={styles.buttonHeader}
         >
           <BurgerIcon type="primary" />
-          <span className={styles.textSpan}>Конструктор</span>
+          <NavLink to="/">
+            <span className={styles.textSpan}>Конструктор</span>
+          </NavLink>
         </Button>
 
         <Button
@@ -39,7 +51,9 @@ function AppHeader() {
           extraClass={styles.buttonProfile}
         >
           <ProfileIcon type="primary" />
-          <span className={styles.textSpan}>Личный кабинет</span>
+          <NavLink to="/profile">
+            <span className={styles.textSpan}>Личный кабинет</span>
+          </NavLink>
         </Button>
       </div>
     </header>

@@ -1,40 +1,86 @@
 import AppHeader from "./components/app-header/App-Header";
-import Bur from "./components/burger-ingredients/Burger-Ingredients";
-import Constructor from "./components/burger-constructor/Burger-Constructor";
+
 import styles from "./app.module.css";
 import React from "react";
-import { ingredientsRequest } from "./services/ingredientsSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
 
-
+import {
+  Home,
+  Login,
+  NotFound404,
+  Register,
+  ForgotPassword,
+  ResetPassword,
+  IngredientPage,
+} from "./pages";
+import { Profile } from "./pages/index.jsx";
+import { ProfileFormLoading } from "./pages/profile/profile-form";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { Modal } from "./components/modal/modal";
+import {
+  OnlyAuth,
+  OnlyUnAuth,
+} from "./components/protected_route/protected_route";
 
 function App() {
-  const dispatch = useDispatch();
-  const error = useSelector((state) => state.ing.error);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const background = location.state && location.state.background;
 
-
-  React.useEffect(() => {
-    dispatch(ingredientsRequest());
-  }, []);
-
-  if (error) {
-    return (
-      <div className={styles.error} onClick={() => setError(null)}>
-        {error}
-      </div>
-    );
-  }
+  const handleModalClose = () => {
+    navigate(-1);
+  };
 
   return (
     <>
       <AppHeader />
       <main className={styles.app_main}>
-        <DndProvider backend={HTML5Backend}>
-          <Bur />
-          <Constructor />
-        </DndProvider>
+        <Routes location={background || location}>
+          <Route path="/" element={<Home />} />
+          <Route
+            path="/login"
+            element={<OnlyUnAuth element={<Login />} exact />}
+          />
+          <Route
+            path="/register"
+            element={<OnlyUnAuth element={<Register />} exact />}
+          />
+          <Route
+            path="/forgot-password"
+            element={<OnlyUnAuth element={<ForgotPassword />} exact />}
+          />
+          <Route
+            path="/reset-password"
+            element={<OnlyAuth element={<ResetPassword />} exact />}
+          />
+          <Route
+            path="/profile"
+            element={<OnlyAuth element={<Profile />} exact />}
+          >
+            <Route
+              index
+              element={<OnlyAuth element={<ProfileFormLoading />} />}
+              exact
+            />
+          </Route>
+          <Route path="/ingredients/:id" element={<IngredientPage />} />
+          <Route path="*" element={<NotFound404 />} exact />
+        </Routes>
+        {background && (
+          <Routes>
+            <Route
+              path="/ingredients/:id"
+              element={
+                <Modal
+                  open
+                  onClose={handleModalClose}
+                  title={"Детали ингредиента"}
+                >
+                  <IngredientPage />
+                </Modal>
+              }
+            />
+          </Routes>
+        )}
       </main>
     </>
   );

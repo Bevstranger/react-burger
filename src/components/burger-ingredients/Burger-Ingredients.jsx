@@ -1,28 +1,27 @@
-import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useState, useRef } from "react";
-import styles from "./burger-ingredients.module.css";
-import Item from "./burger-ingredients-item";
+import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import React, { useState, useRef } from 'react';
+import styles from './burger-ingredients.module.css';
+import Item from './burger-ingredients-item';
 
-import { useSelector } from "react-redux";
+import { useSelector } from 'react-redux';
 
 function BurgerIngredients() {
   const data = useSelector((state) => state.ing.data);
   const dataIng = useSelector((state) => state.construct.data.ingredients);
   const dataBuns = useSelector((state) => state.construct.data.buns);
 
-
-  const [current, setCurrent] = useState("Булки");
+  const [current, setCurrent] = useState('Булки');
 
   const bunRef = useRef(null);
   const sauceRef = useRef(null);
   const fillingRef = useRef(null);
 
-  const buns = data.filter((item) => item.type === "bun");
-  const sauces = data.filter((item) => item.type === "sauce");
-  const fillings = data.filter((item) => item.type === "main");
+  const buns = data.filter((item) => item.type === 'bun');
+  const sauces = data.filter((item) => item.type === 'sauce');
+  const fillings = data.filter((item) => item.type === 'main');
 
   const scrollToSection = (ref) => {
-    ref.current.scrollIntoView({ behavior: "smooth" });
+    ref.current.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -31,9 +30,9 @@ function BurgerIngredients() {
       <div className={styles.tabs}>
         <Tab
           value="Булки"
-          active={current === "Булки"}
+          active={current === 'Булки'}
           onClick={() => {
-            setCurrent("Булки");
+            setCurrent('Булки');
             scrollToSection(bunRef);
           }}
         >
@@ -41,9 +40,9 @@ function BurgerIngredients() {
         </Tab>
         <Tab
           value="Соусы"
-          active={current === "Соусы"}
+          active={current === 'Соусы'}
           onClick={() => {
-            setCurrent("Соусы");
+            setCurrent('Соусы');
             scrollToSection(sauceRef);
           }}
         >
@@ -51,9 +50,9 @@ function BurgerIngredients() {
         </Tab>
         <Tab
           value="Начинки"
-          active={current === "Начинки"}
+          active={current === 'Начинки'}
           onClick={() => {
-            setCurrent("Начинки");
+            setCurrent('Начинки');
             scrollToSection(fillingRef);
           }}
         >
@@ -61,7 +60,7 @@ function BurgerIngredients() {
         </Tab>
       </div>
       <div className={`mt-10 ${styles.ingredients}`}>
-        <WrapperGroup title={"Булки"} ref={bunRef}>
+        <WrapperGroup title={'Булки'} ref={bunRef}>
           {buns.map((data) => (
             <Item
               key={data._id}
@@ -75,7 +74,7 @@ function BurgerIngredients() {
             />
           ))}
         </WrapperGroup>
-        <WrapperGroup title={"Соусы"} ref={sauceRef}>
+        <WrapperGroup title={'Соусы'} ref={sauceRef}>
           {sauces.map(({ name, _id, ...data }) => (
             <Item
               count={dataIng?.filter((item) => item?.name === name).length}
@@ -86,7 +85,7 @@ function BurgerIngredients() {
             />
           ))}
         </WrapperGroup>
-        <WrapperGroup title={"Начинки"} ref={fillingRef}>
+        <WrapperGroup title={'Начинки'} ref={fillingRef}>
           {fillings.map(({ name, _id, ...data }) => (
             <Item
               key={_id}
