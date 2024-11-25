@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getData } from '../api/api';
+import { getData, BASE_URL } from '../api/api';
 
-const URL = 'https://norma.nomoreparties.space/api/ingredients';
+const URL = `${BASE_URL}/ingredients`;
 
 export const ingredientsRequest = createAsyncThunk(
   'ing/ingredientsRequest',

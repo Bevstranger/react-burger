@@ -27,8 +27,14 @@ export const constructSlice = createSlice({
       const [dragItem] = ingredients.splice(dragIndex, 1);
       ingredients.splice(hoverIndex, 0, dragItem);
     },
+    resetIngredients: (state) => {
+      state.data = {
+        buns: [],
+        ingredients: [],
+      };
+    },
   },
 });
 
-export const { addIngredient, deleteIngredient, reorderIngredients } =
+export const { addIngredient, deleteIngredient, reorderIngredients, resetIngredients } =
   constructSlice.actions;

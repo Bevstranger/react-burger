@@ -1,28 +1,38 @@
-import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useState, useRef } from 'react';
-import styles from './burger-ingredients.module.css';
-import Item from './burger-ingredients-item';
-
-import { useSelector } from 'react-redux';
+import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+import React, { useState, useRef, useCallback } from "react";
+import { useInView } from "react-intersection-observer";
+import styles from "./burger-ingredients.module.css";
+import Item from "./burger-ingredients-item";
+import { useSelector } from "react-redux";
 
 function BurgerIngredients() {
   const data = useSelector((state) => state.ing.data);
   const dataIng = useSelector((state) => state.construct.data.ingredients);
   const dataBuns = useSelector((state) => state.construct.data.buns);
 
-  const [current, setCurrent] = useState('Булки');
+  const [current, setCurrent] = useState("Булки");
 
   const bunRef = useRef(null);
   const sauceRef = useRef(null);
   const fillingRef = useRef(null);
 
-  const buns = data.filter((item) => item.type === 'bun');
-  const sauces = data.filter((item) => item.type === 'sauce');
-  const fillings = data.filter((item) => item.type === 'main');
+  const buns = data.filter((item) => item.type === "bun");
+  const sauces = data.filter((item) => item.type === "sauce");
+  const fillings = data.filter((item) => item.type === "main");
 
-  const scrollToSection = (ref) => {
-    ref.current.scrollIntoView({ behavior: 'smooth' });
-  };
+  const [bunInViewRef, bunInView] = useInView({ threshold: 0.5 });
+  const [sauceInViewRef, sauceInView] = useInView({ threshold: 0.5 });
+  const [fillingInViewRef, fillingInView] = useInView({ threshold: 0.5 });
+
+  const handleScroll = useCallback(() => {
+    if (bunInView) {
+      setCurrent("Булки");
+    } else if (sauceInView) {
+      setCurrent("Соусы");
+    } else if (fillingInView) {
+      setCurrent("Начинки");
+    }
+  }, [bunInView, sauceInView, fillingInView]);
 
   return (
     <section className={styles.container}>
@@ -30,37 +40,32 @@ function BurgerIngredients() {
       <div className={styles.tabs}>
         <Tab
           value="Булки"
-          active={current === 'Булки'}
-          onClick={() => {
-            setCurrent('Булки');
-            scrollToSection(bunRef);
-          }}
+          active={current === "Булки"}
+          onClick={() => bunRef.current.scrollIntoView({ behavior: "smooth" })}
         >
           Булки
         </Tab>
         <Tab
           value="Соусы"
-          active={current === 'Соусы'}
-          onClick={() => {
-            setCurrent('Соусы');
-            scrollToSection(sauceRef);
-          }}
+          active={current === "Соусы"}
+          onClick={() =>
+            sauceRef.current.scrollIntoView({ behavior: "smooth" })
+          }
         >
           Соусы
         </Tab>
         <Tab
           value="Начинки"
-          active={current === 'Начинки'}
-          onClick={() => {
-            setCurrent('Начинки');
-            scrollToSection(fillingRef);
-          }}
+          active={current === "Начинки"}
+          onClick={() =>
+            fillingRef.current.scrollIntoView({ behavior: "smooth" })
+          }
         >
           Начинки
         </Tab>
       </div>
-      <div className={`mt-10 ${styles.ingredients}`}>
-        <WrapperGroup title={'Булки'} ref={bunRef}>
+      <div className={`mt-10 ${styles.ingredients}`} onScroll={handleScroll}>
+        <WrapperGroup title="Булки" ref={bunRef} inViewRef={bunInViewRef}>
           {buns.map((data) => (
             <Item
               key={data._id}
@@ -74,7 +79,7 @@ function BurgerIngredients() {
             />
           ))}
         </WrapperGroup>
-        <WrapperGroup title={'Соусы'} ref={sauceRef}>
+        <WrapperGroup title="Соусы" ref={sauceRef} inViewRef={sauceInViewRef}>
           {sauces.map(({ name, _id, ...data }) => (
             <Item
               count={dataIng?.filter((item) => item?.name === name).length}
@@ -85,7 +90,11 @@ function BurgerIngredients() {
             />
           ))}
         </WrapperGroup>
-        <WrapperGroup title={'Начинки'} ref={fillingRef}>
+        <WrapperGroup
+          title="Начинки"
+          ref={fillingRef}
+          inViewRef={fillingInViewRef}
+        >
           {fillings.map(({ name, _id, ...data }) => (
             <Item
               key={_id}
@@ -103,9 +112,11 @@ function BurgerIngredients() {
 
 export default BurgerIngredients;
 
-const WrapperGroup = React.forwardRef(({ title, children }, ref) => (
+const WrapperGroup = React.forwardRef(({ title, children, inViewRef }, ref) => (
   <div ref={ref}>
-    <div className="text text_type_main-medium">{title}</div>
+    <div ref={inViewRef} className="text text_type_main-medium">
+      {title}
+    </div>
     <div className={`mb-10 mt-6 ${styles.list}`}>{children}</div>
   </div>
 ));

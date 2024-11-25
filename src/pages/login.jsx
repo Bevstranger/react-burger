@@ -2,36 +2,34 @@ import {
   Button,
   PasswordInput,
   Input,
-} from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link, useNavigate } from 'react-router-dom';
-import style from './login.module.css';
-import { useLoginMutation } from '../services/api/auth';
-import React, { useState } from 'react';
+} from "@ya.praktikum/react-developer-burger-ui-components";
+import { Link, useNavigate } from "react-router-dom";
+import style from "./login.module.css";
+import { useLoginMutation } from "../services/api/auth";
+import React from "react";
+import { useForm } from "../components/hooks/useForm";
 
 export function Login() {
   const [login] = useLoginMutation({
-    fixedCacheKey: 'login',
+    fixedCacheKey: "login",
   });
 
   const navigate = useNavigate();
 
-  const [emailValue, setEmailValue] = useState('');
-  const onChangeEmail = (e) => {
-    setEmailValue(e.target.value);
-  };
-  const [passValue, setPassValue] = useState('');
-  const onChangePass = (e) => {
-    setPassValue(e.target.value);
-  };
+  const { values, handleChange } = useForm({
+    email: "",
+    password: "",
+  });
 
-  const onLogin = async () => {
+  const onLogin = async (e) => {
+    e.preventDefault();
     const res = await login({
-      email: emailValue,
-      password: passValue,
+      email: values.email,
+      password: values.password,
     }).unwrap();
 
     if (res.success) {
-      navigate('/');
+      navigate("/");
     }
   };
 
@@ -42,27 +40,21 @@ export function Login() {
       >
         Вход
       </p>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-        }}
-        className={style.wr}
-      >
+      <form onSubmit={onLogin} className={style.wr}>
         <Input
-          onChange={onChangeEmail}
-          value={emailValue}
-          name={'email'}
+          onChange={handleChange}
+          value={values.email}
+          name={"email"}
           placeholder="Email"
           extraClass="mb-6"
         />
         <PasswordInput
-          onChange={onChangePass}
-          value={passValue}
-          name={'password'}
+          onChange={handleChange}
+          value={values.password}
+          name={"password"}
           extraClass="mb-6"
         />
         <Button
-          onClick={onLogin}
           htmlType="submit"
           type="primary"
           size="medium"

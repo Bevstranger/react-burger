@@ -13,7 +13,10 @@ import { Modal } from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import { useSelector, useDispatch } from "react-redux";
 import { addIngredient } from "../../services/constructSlice";
-import { reorderIngredients } from "../../services/constructSlice";
+import {
+  reorderIngredients,
+  resetIngredients,
+} from "../../services/constructSlice";
 import { postOrder } from "../../services/orderDetailsSlice";
 import { useGetUserData } from "../hooks/useGetUserData";
 import { useNavigate } from "react-router-dom";
@@ -71,7 +74,7 @@ function BurgerIngredients() {
         <ConstructorElement
           type="top"
           isLocked={true}
-          text={buns[0]?.name ? buns[0].name : "Перетащите булку"}
+          text={buns[0] ? `${buns[0].name} (верх)` : "Перетащите булку"}
           price={buns[0]?.price}
           thumbnail={buns[0]?.image ? buns[0].image : loading}
           extraClass={styles.buns}
@@ -97,7 +100,7 @@ function BurgerIngredients() {
         <ConstructorElement
           type="bottom"
           isLocked={true}
-          text={buns[0]?.name}
+          text={buns[0] ? `${buns[0].name} (низ)` : "Перетащите булку"}
           price={buns[0]?.price}
           thumbnail={buns[0]?.image ? buns[0].image : loading}
         />

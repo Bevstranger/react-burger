@@ -7,8 +7,8 @@ import { Register } from "./register";
 import { ResetPassword } from "./reset-password";
 import { NotFound404 } from "./404";
 import { IngredientPage } from "./ingredients-details";
+import { Orders } from "./profile/orders";
 export {
-  //   Ingredients,
   ForgotPassword,
   Login,
   Home,
@@ -17,4 +17,5 @@ export {
   ResetPassword,
   NotFound404,
   IngredientPage,
+  Orders,
 };

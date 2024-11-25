@@ -1,13 +1,13 @@
-import styles from '../login.module.css';
+import styles from "../login.module.css";
 import {
   Input,
   PasswordInput,
   EmailInput,
   Button,
-} from '@ya.praktikum/react-developer-burger-ui-components';
-import { authApi, useUpdateUserMutation } from '../../services/api/auth';
-import { useState } from 'react';
-import PropTypes from 'prop-types';
+} from "@ya.praktikum/react-developer-burger-ui-components";
+import { authApi, useUpdateUserMutation } from "../../services/api/auth";
+import PropTypes from "prop-types";
+import { useForm } from "../../components/hooks/useForm";
 
 export const ProfileFormLoading = () => {
   const { data, isSuccess } = authApi.endpoints.getUser.useQuery();
@@ -16,19 +16,23 @@ export const ProfileFormLoading = () => {
 
 export const ProfileForm = ({ data }) => {
   const [updateUser] = useUpdateUserMutation();
-  const [name, setName] = useState(data?.user?.name);
-  const [email, setEmail] = useState(data?.user?.email);
-  const [password, setPassword] = useState('');
+  const { values, handleChange, setValues } = useForm({
+    name: data?.user?.name || "",
+    email: data?.user?.email || "",
+    password: "",
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    updateUser({ name, email, password });
+    updateUser(values);
   };
 
   const handleCancel = () => {
-    setName(data?.user?.name);
-    setEmail(data?.user?.email);
-    setPassword('');
+    setValues({
+      name: data?.user?.name || "",
+      email: data?.user?.email || "",
+      password: "",
+    });
   };
 
   return (
@@ -37,29 +41,31 @@ export const ProfileForm = ({ data }) => {
       onSubmit={handleSubmit}
     >
       <Input
-        type={'text'}
-        placeholder={'Имя'}
+        type={"text"}
+        placeholder={"Имя"}
         icon="EditIcon"
-        size={'default'}
-        value={name || ''}
+        size={"default"}
+        value={values.name}
         extraClass="mt-6"
-        onChange={(e) => setName(e.target.value)}
+        onChange={handleChange}
+        name="name"
       />
       <EmailInput
-        type={'text'}
-        placeholder={'E-mail'}
+        type={"text"}
+        placeholder={"E-mail"}
         icon="EditIcon"
-        value={email || ''}
-        size={'default'}
+        value={values.email}
+        size={"default"}
         extraClass="mt-6"
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={handleChange}
+        name="email"
       />
       <PasswordInput
-        value={password}
-        name={'password'}
+        value={values.password}
+        name={"password"}
         icon="EditIcon"
         extraClass="mt-6"
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={handleChange}
       />
       <div className={styles.profileFormButtons}>
         <Button

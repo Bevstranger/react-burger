@@ -25,7 +25,7 @@ export const Profile = () => {
           </li>
           <li className="mt-10">
             <NavLink
-              to={""}
+              to={"/orders"}
               className={(active) => (active ? styles.linkActive : styles.link)}
             >
               История заказов

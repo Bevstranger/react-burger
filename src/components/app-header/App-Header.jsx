@@ -42,7 +42,9 @@ function AppHeader() {
         </Button>
       </nav>
       <div className={styles.logo}>
-        <Logo />
+        <NavLink to="/">
+          <Logo />
+        </NavLink>
       </div>
       <div className={styles.profile}>
         <Button

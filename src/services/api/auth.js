@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { BASE_URL } from '../../api/api';
 
-const BASE_URL = 'https://norma.nomoreparties.space/api';
 
 const prepareHeaders = (headers) => {
   const accessToken = localStorage.getItem('accessToken');

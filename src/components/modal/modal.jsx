@@ -7,7 +7,6 @@ import styles from "./modal.module.css";
 import PropTypes from "prop-types";
 
 export const Modal = ({ children, open, onClose, title }) => {
-  // console.log(open);
   if (!open) {
     return null;
   }

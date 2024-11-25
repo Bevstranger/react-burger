@@ -11,6 +11,7 @@ import {
   ForgotPassword,
   ResetPassword,
   IngredientPage,
+  Orders,
 } from "./pages";
 import { Profile } from "./pages/index.jsx";
 import { ProfileFormLoading } from "./pages/profile/profile-form";
@@ -19,7 +20,7 @@ import { Modal } from "./components/modal/modal";
 import {
   OnlyAuth,
   OnlyUnAuth,
-} from "./components/protected_route/protected_route";
+} from "./components/protected-route/protected-route.jsx";
 
 function App() {
   const location = useLocation();
@@ -62,6 +63,11 @@ function App() {
               exact
             />
           </Route>
+          <Route
+            path="/orders"
+            element={<OnlyAuth element={<Orders />} exact />}
+          />
+
           <Route path="/ingredients/:id" element={<IngredientPage />} />
           <Route path="*" element={<NotFound404 />} exact />
         </Routes>

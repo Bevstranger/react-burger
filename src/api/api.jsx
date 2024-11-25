@@ -17,3 +17,5 @@ export const postData = async (url, data) => {
   });
   return response.json();
 };
+
+export const BASE_URL = "https://norma.nomoreparties.space/api";
