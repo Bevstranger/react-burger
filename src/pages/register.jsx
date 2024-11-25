@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import style from "./login.module.css";
 import { useRegisterMutation } from "../services/api/auth";
 import { useForm } from "../components/hooks/useForm";
+import { useEffect } from "react";
 
 export function Register() {
   const navigate = useNavigate();
@@ -24,9 +25,13 @@ export function Register() {
     e.preventDefault();
     await register(values);
   };
-  if (isSuccess) {
-    navigate("/");
-  }
+
+  useEffect(() => {
+    if (isSuccess) {
+      navigate("/");
+    }
+  }, [isSuccess, navigate]);
+
   return (
     <section className={`${style.wr} ${style.textCenter}`}>
       <form onSubmit={onRegister}>
