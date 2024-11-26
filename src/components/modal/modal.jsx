@@ -6,8 +6,7 @@ import ModalOverlay from "./modal-overlay";
 import styles from "./modal.module.css";
 import PropTypes from "prop-types";
 
-const Modal = ({ children, open, onClose, title }) => {
-  // console.log(open);
+export const Modal = ({ children, open, onClose, title }) => {
   if (!open) {
     return null;
   }
@@ -38,21 +37,7 @@ const Modal = ({ children, open, onClose, title }) => {
     <>
       <ModalOverlay onClose={onClose} />
       {
-        <div
-          className={styles.modal}
-          //   style={{
-          //     position: "fixed",
-          //     display: "flex",
-          //     justifyContent: "center",
-          //     alignItems: "center",
-          //     backgroundColor: "red",
-          //     opacity: "0.9",
-          //     inset: 0,
-          //     zIndex: 100,
-          //     width: "50vw",
-          //     height: " 50vh",
-          //   }}
-        >
+        <div className={styles.modal}>
           <div className={styles.details}>
             <div>
               <CloseIcon
@@ -83,5 +68,3 @@ Modal.propTypes = {
   onClose: PropTypes.func.isRequired,
   title: PropTypes.string,
 };
-
-export default Modal;

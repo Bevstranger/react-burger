@@ -5,18 +5,26 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrop } from "react-dnd";
 import { v4 as uuid } from "uuid";
-import React, { useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import loading from "../../images/loading.svg";
 import styles from "./burger-constructor.module.css";
 import ConstItem from "../burger-constructor/burger-constructor-item";
-import Modal from "../modal/modal";
+import { Modal } from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import { useSelector, useDispatch } from "react-redux";
 import { addIngredient } from "../../services/constructSlice";
-import { reorderIngredients } from "../../services/constructSlice";
+import {
+  reorderIngredients,
+  resetIngredients,
+} from "../../services/constructSlice";
 import { postOrder } from "../../services/orderDetailsSlice";
+import { useGetUserData } from "../hooks/useGetUserData";
+import { useNavigate } from "react-router-dom";
 
 function BurgerIngredients() {
+  const data = useGetUserData();
+  const navigate = useNavigate();
+
   const dispatch = useDispatch();
   const dataIng = useSelector((state) => state.ing.data);
   const buns = useSelector((state) => state.construct.data.buns);
@@ -66,7 +74,7 @@ function BurgerIngredients() {
         <ConstructorElement
           type="top"
           isLocked={true}
-          text={buns[0]?.name ? buns[0].name : "Перетащите булку"}
+          text={buns[0] ? `${buns[0].name} (верх)` : "Перетащите булку"}
           price={buns[0]?.price}
           thumbnail={buns[0]?.image ? buns[0].image : loading}
           extraClass={styles.buns}
@@ -92,7 +100,7 @@ function BurgerIngredients() {
         <ConstructorElement
           type="bottom"
           isLocked={true}
-          text={buns[0]?.name}
+          text={buns[0] ? `${buns[0].name} (низ)` : "Перетащите булку"}
           price={buns[0]?.price}
           thumbnail={buns[0]?.image ? buns[0].image : loading}
         />
@@ -111,12 +119,13 @@ function BurgerIngredients() {
         )}
 
         <Button
+          disabled={ingredients.length === 0 || buns.length === 0}
           htmlType="button"
           type="primary"
           onClick={() => {
-            dispatch(postOrder(ingredientsIds));
-
-            setShowModal(!showModal);
+            data?.user
+              ? (dispatch(postOrder(ingredientsIds)), setShowModal(!showModal))
+              : navigate("/login");
           }}
         >
           Оформить заказ
