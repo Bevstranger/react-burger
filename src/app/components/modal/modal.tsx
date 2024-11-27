@@ -43,23 +43,21 @@ export const Modal: FC<IModal> = ({ children, open, onClose, title }) => {
 			<ModalOverlay onClose={onClose} />
 			{
 				<div className={styles.modal}>
-					<div className={styles.details}>
-						<div>
-							<CloseIcon
-								className={styles.iconClose}
-								type='primary'
-								onClick={() => {
-									onClose(false);
-								}}
-							/>
-						</div>
-						{title && (
-							<div className={`text text_type_main-large ${styles.title} `}>
-								{title}
-							</div>
-						)}
-						{children}
+					<div>
+						<CloseIcon
+							className={styles.iconClose}
+							type='primary'
+							onClick={() => {
+								onClose(false);
+							}}
+						/>
 					</div>
+					{title && (
+						<div className={`text text_type_main-large ${styles.title} `}>
+							{title}
+						</div>
+					)}
+					{children}
 				</div>
 			}
 		</>,

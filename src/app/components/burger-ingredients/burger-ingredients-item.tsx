@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-
 import { FC } from 'react';
 import {
 	CurrencyIcon,
@@ -8,8 +6,7 @@ import {
 import styles from './burger-ingredients.module.css';
 
 import { useDrag } from 'react-dnd';
-// import { useAppDispatch } from '../../services/store';
-// import { setIngredientsDetails } from '../../services/ingrenietsDetailsSlice';
+
 import { Link, useLocation } from 'react-router-dom';
 
 interface IItem {
@@ -43,11 +40,6 @@ const Item: FC<IItem> = (props) => {
 				<div
 					ref={dragRef}
 					style={{ opacity }}
-					// onClick={() => {
-					// 	dispatch(setIngredientsDetails(props));
-					// 	setShowModal(!showModal);
-					// 	// navigate(`/ingredients/${id}`);
-					// }}
 					className={`text text_type_main-default mb-2 ${styles.item}`}>
 					<Counter count={count} size='default' />
 					<img
@@ -65,14 +57,6 @@ const Item: FC<IItem> = (props) => {
 			</Link>
 		</>
 	);
-};
-
-Item.propTypes = {
-	image: PropTypes.string.isRequired,
-	name: PropTypes.string.isRequired,
-	price: PropTypes.number.isRequired,
-	count: PropTypes.number.isRequired,
-	id: PropTypes.string.isRequired,
 };
 
 export default Item;
