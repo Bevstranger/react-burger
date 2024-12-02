@@ -27,8 +27,7 @@ const ProtectedRouteElement: FC<IProtectedRouteElement> = ({
 	const { data, error, refetch } = useGetUserQuery({
 		skip: !accessToken,
 	});
-	console.log(data, 'data');
-	console.log(error, 'error');
+
 	const isAuthorized = Boolean(data?.user);
 
 	useEffect(() => {
