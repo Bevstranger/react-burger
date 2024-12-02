@@ -1,9 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, FC } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import PropTypes from 'prop-types';
+
 import { useGetUserQuery, useRefreshMutation } from '../../services/api/auth';
 
-const ProtectedRouteElement = ({ onlyUnAuth = false, element }) => {
+const ProtectedRouteElement: FC<{
+	onlyUnAuth: boolean,
+	element: React.PropsWithChildren,
+}> = ({ onlyUnAuth = false, element }) => {
 	const location = useLocation();
 	const accessToken = localStorage.getItem('accessToken');
 	const refreshToken = localStorage.getItem('refreshToken');
@@ -51,11 +54,6 @@ const ProtectedRouteElement = ({ onlyUnAuth = false, element }) => {
 	}
 
 	return element;
-};
-
-ProtectedRouteElement.propTypes = {
-	onlyUnAuth: PropTypes.bool,
-	element: PropTypes.element.isRequired,
 };
 
 export const OnlyAuth = (props) => <ProtectedRouteElement {...props} />;
