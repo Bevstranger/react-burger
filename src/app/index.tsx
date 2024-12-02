@@ -18,7 +18,7 @@ import { Modal } from './components/modal/modal';
 import {
 	OnlyAuth,
 	OnlyUnAuth,
-} from './components/protected-route/protected-route.jsx';
+} from './components/protected-route/protected-route';
 
 export const App = () => {
 	const location = useLocation();
@@ -49,7 +49,7 @@ export const App = () => {
 					/>
 					<Route
 						path='/reset-password'
-						element={<OnlyAuth element={<ResetPassword />} exact />}
+						element={<OnlyUnAuth element={<ResetPassword />} exact />}
 					/>
 					<Route
 						path='/profile'

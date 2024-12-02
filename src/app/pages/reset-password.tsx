@@ -1,30 +1,20 @@
 import {
 	Button,
-	Input,
 	PasswordInput,
+	Input,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useState } from 'react';
 import style from './login.module.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useResetPasswordMutation } from '../services/api/auth';
+import { useForm } from '../components/hooks/useForm';
 
 export const ResetPassword = () => {
 	const navigate = useNavigate();
 	const [resetPassword] = useResetPasswordMutation();
-	const [password, setPassword] = useState('');
-	const [code, setCode] = useState('');
-
-	const handlePasswordChange = (e) => {
-		setPassword(e.target.value);
-	};
-
-	const handleCodeChange = (e) => {
-		setCode(e.target.value);
-	};
-
-	const handleReset = (e) => {
+	const { values, handleChange } = useForm({ password: '', code: '' });
+	const handleReset = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		resetPassword({ password: password, token: code });
+		resetPassword({ password: values.password, token: values.code });
 		navigate('/login');
 	};
 
@@ -35,16 +25,16 @@ export const ResetPassword = () => {
 					Восстановление пароля
 				</p>
 				<PasswordInput
-					onChange={handlePasswordChange}
-					value={password}
+					onChange={handleChange}
+					value={values.password}
 					name={'password'}
 					extraClass='mb-6'
 					autoComplete='off'
 					label='Пароль'
 				/>
 				<Input
-					onChange={handleCodeChange}
-					value={code}
+					onChange={handleChange}
+					value={values.code}
 					name={'code'}
 					extraClass='mb-6'
 					autoComplete='off'

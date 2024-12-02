@@ -25,11 +25,6 @@ interface IDataItem {
 	__v: number;
 }
 
-// interface IIngredientObject {
-//   type: string;
-//   ingredients: IDataItem[];
-// }
-
 export const ingredientsRequest = createAsyncThunk(
 	'ing/ingredientsRequest',
 	async () => {

@@ -1,12 +1,23 @@
 import React, { useEffect, FC } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-
 import { useGetUserQuery, useRefreshMutation } from '../../services/api/auth';
 
-const ProtectedRouteElement: FC<{
-	onlyUnAuth: boolean,
-	element: React.PropsWithChildren,
-}> = ({ onlyUnAuth = false, element }) => {
+interface IProtectedRouteElement {
+	element: React.ReactNode;
+	onlyUnAuth?: boolean;
+	exact?: boolean;
+}
+
+interface IError {
+	data: {
+		message: string;
+	};
+}
+
+const ProtectedRouteElement: FC<IProtectedRouteElement> = ({
+	onlyUnAuth = false,
+	element,
+}) => {
 	const location = useLocation();
 	const accessToken = localStorage.getItem('accessToken');
 	const refreshToken = localStorage.getItem('refreshToken');
@@ -16,12 +27,13 @@ const ProtectedRouteElement: FC<{
 	const { data, error, refetch } = useGetUserQuery({
 		skip: !accessToken,
 	});
-
+	console.log(data, 'data');
+	console.log(error, 'error');
 	const isAuthorized = Boolean(data?.user);
 
 	useEffect(() => {
 		if (
-			error?.data?.message === 'jwt expired' &&
+			(error as IError)?.data?.message === 'jwt expired' &&
 			refreshToken &&
 			!refreshData?.success
 		) {
@@ -56,7 +68,9 @@ const ProtectedRouteElement: FC<{
 	return element;
 };
 
-export const OnlyAuth = (props) => <ProtectedRouteElement {...props} />;
-export const OnlyUnAuth = (props) => (
+export const OnlyAuth: FC<IProtectedRouteElement> = (props) => (
+	<ProtectedRouteElement {...props} />
+);
+export const OnlyUnAuth: FC<IProtectedRouteElement> = (props) => (
 	<ProtectedRouteElement onlyUnAuth {...props} />
 );

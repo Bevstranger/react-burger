@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { BASE_URL } from '../../api/api';
+
 export type TAuthResponse = {
 	success: boolean;
 	accessToken: string;
@@ -25,31 +26,34 @@ const prepareHeaders = (headers: Headers) => {
 };
 
 export const authApi = createApi({
+	tagTypes: ['User'],
 	reducerPath: 'authApi',
 	baseQuery: fetchBaseQuery({
 		baseUrl: BASE_URL,
 		prepareHeaders,
 	}),
 	endpoints: (builder) => ({
-		login: builder.mutation<TAuthResponse, void>({
-			query: (body) => ({
-				url: '/auth/login',
-				method: 'POST',
-				body,
-			}),
-			transformResponse: (response: TAuthResponse): TAuthResponse => {
-				const { refreshToken, accessToken, success } = response;
-				if (success && refreshToken && accessToken) {
-					localStorage.setItem('refreshToken', refreshToken);
-					localStorage.setItem('accessToken', accessToken);
-				} else {
-					throw new Error(
-						'Login failed: missing expected data, check your credentials'
-					);
-				}
-				return response;
-			},
-		}),
+		login: builder.mutation<TAuthResponse, { email: string; password: string }>(
+			{
+				query: (body) => ({
+					url: '/auth/login',
+					method: 'POST',
+					body,
+				}),
+				transformResponse: (response: TAuthResponse): TAuthResponse => {
+					const { refreshToken, accessToken, success } = response;
+					if (success && refreshToken && accessToken) {
+						localStorage.setItem('refreshToken', refreshToken);
+						localStorage.setItem('accessToken', accessToken);
+					} else {
+						throw new Error(
+							'Login failed: missing expected data, check your credentials'
+						);
+					}
+					return response;
+				},
+			}
+		),
 		register: builder.mutation<
 			TAuthResponse,
 			{ name: string; email: string; password: string }
@@ -82,8 +86,10 @@ export const authApi = createApi({
 				} else {
 					console.error('Failed to logout:', response);
 				}
+
 				return response;
 			},
+			invalidatesTags: ['User'],
 		}),
 		refresh: builder.mutation({
 			query: ({ token }) => {
@@ -122,9 +128,18 @@ export const authApi = createApi({
 				url: '/auth/user',
 				method: 'GET',
 			}),
+			providesTags: ['User'],
 		}),
 	}),
 });
+
+// {
+// 	"status": 401,
+// 	"data": {
+// 	"success": false,
+// 		"message": "You should be authorised"
+// }
+// }
 
 export const {
 	useLoginMutation,

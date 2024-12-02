@@ -2,36 +2,31 @@ import {
 	Button,
 	EmailInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useState } from 'react';
-import style from './login.module.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForgotPasswordMutation } from '../services/api/auth';
+import { useForm } from '../components/hooks/useForm';
+import style from './login.module.css';
 
 export const ForgotPassword = () => {
 	const navigate = useNavigate();
-
 	const [forgotPassword] = useForgotPasswordMutation();
-	const [value, setValue] = useState('');
+	const { values, handleChange } = useForm({ email: '' });
 
-	const onChange = (e) => {
-		setValue(e.target.value);
-	};
-
-	const handleReset = async (e, value) => {
+	const handleReset = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		await forgotPassword({ email: value });
+		await forgotPassword({ email: values.email });
 		navigate('/reset-password');
 	};
 
 	return (
 		<section className={`${style.wr} ${style.textCenter}`}>
-			<form onSubmit={(e) => handleReset(e, value)}>
+			<form onSubmit={handleReset}>
 				<p className='text text_type_main-medium mb-6 mt-20'>
 					Восстановление пароля
 				</p>
 				<EmailInput
-					onChange={onChange}
-					value={value}
+					onChange={handleChange}
+					value={values.email}
 					name={'email'}
 					extraClass='mb-6'
 				/>
@@ -40,7 +35,7 @@ export const ForgotPassword = () => {
 				</Button>
 			</form>
 			<p className={`text text_type_main-default ${style.textCenter} mt-20`}>
-				Вспомнили пароль? <Link to='/login'>Войти</Link>
+				Вспомнили пароль? <Link to='/login'>Войти</Link>
 			</p>
 		</section>
 	);

@@ -21,7 +21,7 @@ export function Register() {
 
 	const [register, { isSuccess }] = useRegisterMutation();
 
-	const onRegister = async (e) => {
+	const onRegister = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		await register(values);
 	};

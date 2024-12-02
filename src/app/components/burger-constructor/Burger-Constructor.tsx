@@ -23,6 +23,7 @@ import { useNavigate } from 'react-router-dom';
 
 function BurgerIngredients() {
 	const data = useGetUserData();
+	console.log(data, 'data construktor');
 	const navigate = useNavigate();
 
 	const dispatch = useAppDispatch();

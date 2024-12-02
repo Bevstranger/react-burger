@@ -1,4 +1,3 @@
-// import { Ingredients } from "./Ingredients/Ingredients";
 import { ForgotPassword } from './forgot-password';
 import { Login } from './login';
 import { Home } from './home';

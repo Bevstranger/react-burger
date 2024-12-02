@@ -6,31 +6,35 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import style from './login.module.css';
 import { useLoginMutation } from '../services/api/auth';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from '../components/hooks/useForm';
 
 export function Login() {
-	const [login] = useLoginMutation({
-		fixedCacheKey: 'login',
-	});
-
+	const [login, { isSuccess, isLoading, isError, data }] = useLoginMutation();
+	console.log(data, 'data');
+	console.log(isSuccess, isLoading, isError, 'login');
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (isError) {
+			navigate('/login');
+		} else if (isSuccess) {
+			navigate('/');
+		}
+	}, [isError, isSuccess, navigate]);
 
 	const { values, handleChange } = useForm({
 		email: '',
 		password: '',
 	});
 
-	const onLogin = async (e) => {
+	const onLogin = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		const res = await login({
+		console.log('tuta');
+		await login({
 			email: values.email,
 			password: values.password,
-		}).unwrap();
-
-		if (res.success) {
-			navigate('/');
-		}
+		});
 	};
 
 	return (
@@ -41,6 +45,7 @@ export function Login() {
 			</p>
 			<form onSubmit={onLogin} className={style.wr}>
 				<Input
+					type={'email'}
 					onChange={handleChange}
 					value={values.email}
 					name={'email'}
