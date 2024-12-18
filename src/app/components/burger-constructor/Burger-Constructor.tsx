@@ -17,13 +17,13 @@ import {
 	addIngredient,
 	reorderIngredients,
 } from '../../services/constructSlice';
-import { postOrder } from '../../services/orderDetailsSlice';
+import { usePostOrderMutation } from '../../services/orderDetailsSlice';
 import { useGetUserData } from '../hooks/useGetUserData';
 import { useNavigate } from 'react-router-dom';
 
 function BurgerIngredients() {
+	const [postOrder] = usePostOrderMutation();
 	const data = useGetUserData();
-	console.log(data, 'data construktor');
 	const navigate = useNavigate();
 
 	const dispatch = useAppDispatch();
@@ -128,9 +128,14 @@ function BurgerIngredients() {
 					htmlType='button'
 					type='primary'
 					onClick={() => {
-						data?.user
-							? (dispatch(postOrder(ingredientsIds)), setShowModal(!showModal))
-							: navigate('/login');
+						if (data?.user) {
+							postOrder(ingredientsIds)
+								.unwrap()
+								.then(() => setShowModal(true))
+								.catch((error) => console.error('Failed to post order:', error));
+						} else {
+							navigate('/login');
+						}
 					}}>
 					Оформить заказ
 				</Button>

@@ -16,7 +16,7 @@ export type TLogoutResponse = {
 	message: string;
 };
 
-const prepareHeaders = (headers: Headers) => {
+export const prepareHeaders = (headers: Headers) => {
 	const accessToken = localStorage.getItem('accessToken');
 	if (accessToken) {
 		headers.set('Authorization', `${accessToken}`);
