@@ -1,22 +1,21 @@
 import styles from '../burger-constructor/burger-constructor.module.css';
 import imgDone from '../../images/done.png';
-import { useSelector } from 'react-redux';
-import loading from '../../images/loading.svg';
-import { RootState } from '../../services/store';
-const OrderDetails = () => {
-	const data = useSelector((state: RootState) => state.orderDetails);
-	console.log(data);
 
+import loading from '../../images/loading.svg';
+
+import { IOrderInfo } from '../../services/orderDetailsSlice';
+const OrderDetails: React.FC<{ data?: IOrderInfo; isLoading: boolean, isError: boolean }> = ({data, isLoading, isError}) => {
+	
 	return (
 		<div className={styles.detailsModal}>
-			{data.orderRequest ? (
+			{isLoading ? (
 				<img src={loading} alt='loading' />
-			) : data.orderRequestError ? (
+			) : isError ? (
 				<p>Error</p>
 			) : (
 				<>
 					<p className={'text text_type_digits-large pb-8 '}>
-						{data.order?.order.number}
+						{data?.order?.number}
 					</p>
 					<p className={'text text_type_main-medium pb-2'}>
 						идентификатор заказа
