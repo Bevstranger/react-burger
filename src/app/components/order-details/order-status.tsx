@@ -11,7 +11,7 @@ export const OrderStatus = ({ data }: { data?: TOrdersResponse }) => {
 	return (
 		<>
 			<div className={styles.list_orders}>
-				<section>
+				<section className={styles.ready_section}>
 					<p className='text text_type_main-medium'>Готовы:</p>
 					<div
 						className={`${styles.list_number_orders} ${styles.ready_orders}`}>
@@ -34,7 +34,7 @@ export const OrderStatus = ({ data }: { data?: TOrdersResponse }) => {
 						</ul>
 					</div>
 				</section>
-				<section>
+				<section className={styles.ready_section}>
 					<p className='text text_type_main-medium'>В работе:</p>
 					<div className={styles.list_number_orders}>
 						<ul className={styles.ul_orders}>
@@ -60,13 +60,13 @@ export const OrderStatus = ({ data }: { data?: TOrdersResponse }) => {
 			<section>
 				<p className='text text_type_main-medium'>Выполнено за все время:</p>
 				<p className={`${styles.text_sh} text text_type_digits-large pb-8`}>
-					15254
+					{data?.total}
 				</p>
 			</section>
 			<section>
 				<p className='text text_type_main-medium'>Выполнено за сегодня:</p>
 				<p className={`${styles.text_sh} text text_type_digits-large pb-8`}>
-					150
+					{data?.totalToday}
 				</p>
 			</section>
 		</>

@@ -19,7 +19,7 @@
 	justify-content: flex-start;
 	height: 320px;
 	overflow: auto;
-	width: 640px;
+	/* width: 640px; */
 	scrollbar-color: #8585ad #2f2f37;
 	scrollbar-width: thin;
 }

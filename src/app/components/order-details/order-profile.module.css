@@ -105,6 +105,7 @@ li {
 }
 
 .link {
+	padding-right: 5px;
 	text-decoration: none;
 	color: white;
 }
@@ -121,6 +122,8 @@ li {
 }
 .scroll {
 	overflow: auto;
+	height: 78vh;
+	scrollbar-width: thin;
 	display: flex;
 	flex-direction: column;
 }

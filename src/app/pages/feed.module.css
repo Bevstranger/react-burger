@@ -12,6 +12,7 @@
 	flex-direction: column;
 	justify-content: flex-start;
 	max-width: 600px;
+	min-width: 584px;
 }
 
 .right_section {
