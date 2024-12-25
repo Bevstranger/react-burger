@@ -36,7 +36,9 @@ function AppHeader() {
 					type='secondary'
 					extraClass={styles.buttonHeader}>
 					<ListIcon type='primary' />
-					<span className={styles.textSpan}>Лента заказов</span>
+					<NavLink to='/feeds'>
+						<span className={styles.textSpan}>Лента заказов</span>
+					</NavLink>
 				</Button>
 			</nav>
 			<div className={styles.logo}>

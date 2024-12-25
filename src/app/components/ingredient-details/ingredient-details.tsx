@@ -10,6 +10,9 @@ export const IngredientDetails = () => {
 
 	return (
 		<div className={styles.modalItem}>
+			<div className={styles.title}>
+				<h2>Детали ингредиента</h2>
+			</div>
 			<img src={ingredient?.image_large} alt={ingredient?.name} />
 			<p>{ingredient?.name}</p>
 			<p>

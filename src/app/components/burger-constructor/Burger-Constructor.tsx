@@ -16,14 +16,14 @@ import { useAppDispatch, RootState } from '../../services/store';
 import {
 	addIngredient,
 	reorderIngredients,
-	resetIngredients,
 } from '../../services/constructSlice';
 import { usePostOrderMutation } from '../../services/orderDetailsSlice';
 import { useGetUserData } from '../hooks/useGetUserData';
 import { useNavigate } from 'react-router-dom';
 
 function BurgerIngredients() {
-	const [postOrder, {data: order, isLoading, isError}] = usePostOrderMutation();
+	const [postOrder, { data: order, isLoading, isError }] =
+		usePostOrderMutation();
 	const data = useGetUserData();
 	const navigate = useNavigate();
 
@@ -48,6 +48,12 @@ function BurgerIngredients() {
 		() => ingredients.map((item) => item._id),
 		[ingredients]
 	);
+	const bunsIds = useMemo(() => buns.map((item) => item._id), [buns]);
+	const allIds = useMemo(
+		() => [bunsIds[0], ...ingredientsIds, bunsIds[0]],
+		[ingredientsIds, bunsIds]
+	);
+	console.log(allIds, 'allIds');
 
 	const [, dropTarget] = useDrop({
 		accept: 'ingredients',
@@ -118,25 +124,30 @@ function BurgerIngredients() {
 				<div className={`${styles.total_icon} mr-10`}>
 					<CurrencyIcon type='primary' />
 				</div>
-				
-					{showModal && (
-						<Modal open={showModal} onClose={setShowModal}>
-							<OrderDetails data={order} isLoading={isLoading} isError={isError} />
-						</Modal>
-					)}
-				
+
+				{showModal && (
+					<Modal open={showModal} onClose={setShowModal}>
+						<OrderDetails
+							data={order}
+							isLoading={isLoading}
+							isError={isError}
+						/>
+					</Modal>
+				)}
 
 				<Button
-					disabled={(ingredients.length === 0 || buns.length === 0) || isLoading}
+					disabled={ingredients.length === 0 || buns.length === 0 || isLoading}
 					htmlType='button'
 					type='primary'
 					onClick={() => {
-						setShowModal(true)
+						setShowModal(true);
 						if (data?.user) {
-							postOrder(ingredientsIds)
+							postOrder(allIds)
 								.unwrap()
-								
-								.catch((error) => console.error('Failed to post order:', error));
+
+								.catch((error) =>
+									console.error('Failed to post order:', error)
+								);
 						} else {
 							navigate('/login');
 						}

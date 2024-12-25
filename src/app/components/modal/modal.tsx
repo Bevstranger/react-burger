@@ -52,11 +52,11 @@ export const Modal: FC<IModal> = ({ children, open, onClose, title }) => {
 							}}
 						/>
 					</div>
-					{title && (
+					{/* {title && (
 						<div className={`text text_type_main-large ${styles.title} `}>
 							{title}
 						</div>
-					)}
+					)} */}
 					{children}
 				</div>
 			}

@@ -4,8 +4,11 @@ import imgDone from '../../images/done.png';
 import loading from '../../images/loading.svg';
 
 import { IOrderInfo } from '../../services/orderDetailsSlice';
-const OrderDetails: React.FC<{ data?: IOrderInfo; isLoading: boolean, isError: boolean }> = ({data, isLoading, isError}) => {
-	
+const OrderDetails: React.FC<{
+	data?: IOrderInfo;
+	isLoading: boolean;
+	isError: boolean;
+}> = ({ data, isLoading, isError }) => {
 	return (
 		<div className={styles.detailsModal}>
 			{isLoading ? (

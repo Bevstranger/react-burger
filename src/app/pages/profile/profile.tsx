@@ -3,10 +3,11 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import styles from '../login.module.css';
 import { useLogoutMutation } from '../../services/api/auth';
-import { Outlet } from 'react-router';
+import { Outlet, useLocation } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
 
 export const Profile = () => {
+	const location = useLocation();
 	const [logout] = useLogoutMutation();
 	const handleLogout = async () => {
 		const token = localStorage.getItem('refreshToken');
@@ -23,26 +24,32 @@ export const Profile = () => {
 						<NavLink
 							to={'/profile'}
 							className={({ isActive }) => {
-								return !isActive ? styles.linkActive : styles.link;
+								return isActive && location.pathname === '/profile'
+									? styles.linkActive
+									: styles.link;
 							}}>
 							Профиль
 						</NavLink>
 					</li>
 					<li className='mt-10'>
 						<NavLink
-							to={'/orders'}
-							className={(active) =>
-								active ? styles.linkActive : styles.link
-							}>
+							to={'/profile/orders'}
+							className={({ isActive }) => {
+								return isActive && location.pathname === '/profile/orders'
+									? styles.linkActive
+									: styles.link;
+							}}>
 							История заказов
 						</NavLink>
 					</li>
 					<li onClick={handleLogout} className='mt-10'>
 						<NavLink
 							to={'/'}
-							className={(active) =>
-								active ? styles.linkActive : styles.link
-							}>
+							className={({ isActive }) => {
+								return isActive && location.pathname === '/'
+									? styles.linkActive
+									: styles.link;
+							}}>
 							Выход
 						</NavLink>
 					</li>
