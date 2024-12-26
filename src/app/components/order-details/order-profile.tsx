@@ -27,13 +27,14 @@ export const OrderProfile: React.FC<{
 			return ingData?.find((i) => i._id === item);
 		});
 	});
+
 	console.log(ingredients, 'ingredients');
-	const orderIngredientsImages = ingredients?.map((el) => {
-		return el?.map((item) => {
-			return item?.image;
-		});
-	});
-	console.log(orderIngredientsImages, 'orderIngredientsImages');
+	// const orderIngredientsPrice = ingredients?.map((el) => {
+	// 	return el?.map((item) => {
+	// 		return item?.price;
+	// 	});
+	// });
+	// console.log(orderIngredientsPrice, 'orderIngredientsPrice');
 
 	if (!data) {
 		return <p>Loading...</p>;
@@ -109,8 +110,16 @@ export const OrderProfile: React.FC<{
 										);
 									})}
 							</div>
+
 							<div className={styles.price}>
-								<span className={`text text_type_digits-default`}>1255</span>
+								<span className={`text text_type_digits-default`}>
+									{el.ingredients
+										.map((item: any) => {
+											return ingData?.find((i: any) => i._id === item)?.price;
+										})
+										.reduce((acc: any, curr: any) => acc + curr, 0)}
+								</span>
+
 								<CurrencyIcon type='primary' />
 							</div>
 						</div>

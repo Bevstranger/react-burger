@@ -15,15 +15,25 @@ export const OrderInfoPage: React.FC<{
 }> = ({ data, ingData }) => {
 	const { id } = useParams();
 
-	const ingredient = data?.orders
-		.filter((item) => item.number.toString() === id)
-		.map((el) => {
-			return el.ingredients.map((item) => {
-				return ingData?.find((i) => i._id === item);
-			});
-		});
+	const order = data?.orders.find((item) => item.number.toString() === id);
+	const ingredients = order?.ingredients
+		.map((item) => {
+			return ingData?.find((i) => i._id === item);
+		})
+		.filter((item) => item !== undefined)
+		.reduce<Record<string, IDataItem & { count: number }>>((acc, current) => {
+			acc[current._id] = acc[current._id] || { ...current, count: 0 };
+			acc[current._id].count += 1;
+			return acc;
+		}, {});
 
-	const order = data?.orders?.find((item) => item.number.toString() === id);
+	console.log(ingredients, 'ingredientsOrderInfo');
+
+	const totalPrice = Object.values(ingredients || {}).reduce(
+		(acc, curr) => acc + curr.price * curr.count,
+		0
+	);
+
 	return (
 		<main className={styles.main_container}>
 			<>
@@ -42,53 +52,29 @@ export const OrderInfoPage: React.FC<{
 				</p>
 				<p className='text text_type_main-medium mb-2'>Состав:</p>
 				<section className={styles.fill_order}>
-					{ingredient?.map((el) => {
-						return el?.map((item, index) => {
-							return (
-								<li className='mt-4' key={index}>
-									<div className={styles.row_fill}>
-										<div className={styles.image_name}>
-											<div className={styles.image_fill}>
-												<img src={item?.image} alt={''} />
-											</div>
-											<p
-												className={`text text_type_main-default ml-4 ${styles.pname}`}>
-												{item?.name}
-											</p>
+					{Object.values(ingredients || {}).map((item, index) => {
+						return (
+							<li className='mt-4' key={index}>
+								<div className={styles.row_fill}>
+									<div className={styles.image_name}>
+										<div className={styles.image_fill}>
+											<img src={item.image} alt={''} />
 										</div>
-										<div className={styles.count_price}>
-											<span className='text text_type_digits-default mr-2'>
-												1х300
-											</span>
-											<CurrencyIcon type='primary' />
-										</div>
+										<p
+											className={`text text_type_main-default ml-4 ${styles.pname}`}>
+											{item.name}
+										</p>
 									</div>
-								</li>
-							);
-						});
-					})}
-					{/* <li className='mt-4'>
-						<div className={styles.row_fill}>
-							<div className={styles.image_name}>
-								<div className={styles.image_fill}>
-									<img
-										src={'https://code.s3.yandex.net/react/code/bun-02.png'}
-										alt={''}
-									/>
+									<div className={styles.count_price}>
+										<span className='text text_type_digits-default mr-2'>
+											{item.count}x{item.price}
+										</span>
+										<CurrencyIcon type='primary' />
+									</div>
 								</div>
-								<p
-									className={`text text_type_main-default ml-4 ${styles.pname}`}>
-									{Item?.name}
-								</p>
-							</div>
-							<div className={styles.count_price}>
-								<span className='text text_type_digits-default mr-2'>
-									1х300
-								</span>
-								<CurrencyIcon type='primary' />
-							</div>
-						</div>
-					</li> */}
+							</li>
+						);
+					})}
 				</section>
 				<section
 					className={`text text_type_main-default mt-10 mb-6 ${styles.food_order}`}>
@@ -102,7 +88,9 @@ export const OrderInfoPage: React.FC<{
 					)}
 
 					<div className={styles.count_price}>
-						<span className={`text text_type_digits-default mr-2`}>2303</span>
+						<span className={`text text_type_digits-default mr-2`}>
+							{totalPrice}
+						</span>
 						<CurrencyIcon type='primary' />
 					</div>
 				</section>
