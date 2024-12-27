@@ -11,7 +11,7 @@ import styles from './burger-constructor.module.css';
 import ConstItem from './burger-constructor-item';
 import { Modal } from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../hooks/useSel-useDis';
 import { useAppDispatch, RootState } from '../../services/store';
 import {
 	addIngredient,

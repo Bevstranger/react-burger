@@ -1,6 +1,6 @@
 import React from 'react';
 import { OrderInfoPage } from '../../components/order-details/order-info';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../components/hooks/useSel-useDis';
 import { RootState } from '../../services/store';
 import { useGetOrdersAllQuery, useGetOrdersQuery } from '../../services/api/ws';
 import { useLocation } from 'react-router-dom';
