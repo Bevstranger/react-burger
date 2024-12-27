@@ -83,7 +83,8 @@ export const App = () => {
 								<Modal
 									open
 									onClose={handleModalClose}
-									title={'Детали ингредиента'}>
+									// title={'Детали ингредиента'}
+								>
 									<IngredientPage />
 								</Modal>
 							}
@@ -91,7 +92,11 @@ export const App = () => {
 						<Route
 							path='/profile/orders/:id'
 							element={
-								<Modal open onClose={handleModalClose} title={'Детали заказа'}>
+								<Modal
+									open
+									onClose={handleModalClose}
+									// title={'Детали заказа'}
+								>
 									<OrderInfo />
 								</Modal>
 							}
@@ -99,7 +104,11 @@ export const App = () => {
 						<Route
 							path='/feeds/:id'
 							element={
-								<Modal open onClose={handleModalClose} title={'Детали заказа'}>
+								<Modal
+									open
+									onClose={handleModalClose}
+									// title={'Детали заказа'}
+								>
 									<OrderInfo />
 								</Modal>
 							}
