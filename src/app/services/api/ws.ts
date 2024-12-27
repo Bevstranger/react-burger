@@ -20,13 +20,12 @@ export const ws = createApi({
 					'wss://norma.nomoreparties.space/orders?token=' +
 						localStorage.getItem('accessToken')?.split(' ')[1]
 				);
-				console.log(websocket, 'websocket');
+
 				try {
 					await cacheDataLoaded;
 
 					const listener = (event: MessageEvent) => {
 						const data = JSON.parse(event.data);
-						console.log(data, 'Apidata');
 
 						updateCachedData((draft) => {
 							draft.orders = data.orders;
@@ -54,7 +53,7 @@ export const ws = createApi({
 				const websocket = new WebSocket(
 					'wss://norma.nomoreparties.space/orders/all'
 				);
-				console.log(websocket, 'websocket');
+
 				try {
 					await cacheDataLoaded;
 

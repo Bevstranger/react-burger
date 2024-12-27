@@ -53,7 +53,6 @@ function BurgerIngredients() {
 		() => [bunsIds[0], ...ingredientsIds, bunsIds[0]],
 		[ingredientsIds, bunsIds]
 	);
-	console.log(allIds, 'allIds');
 
 	const [, dropTarget] = useDrop({
 		accept: 'ingredients',
