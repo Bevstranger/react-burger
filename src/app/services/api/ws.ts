@@ -22,16 +22,11 @@ export const ws = createApi({
 				);
 				console.log(websocket, 'websocket');
 				try {
-					// wait for the initial query to resolve before proceeding
 					await cacheDataLoaded;
 
-					// when data is received from the socket connection to the server,
-					// if it is a message and for the appropriate channel,
-					// update our query result with the received message
 					const listener = (event: MessageEvent) => {
 						const data = JSON.parse(event.data);
 						console.log(data, 'Apidata');
-						// if (!isMessage(data) || data.channel !== arg) return;
 
 						updateCachedData((draft) => {
 							draft.orders = data.orders;
@@ -41,13 +36,10 @@ export const ws = createApi({
 					};
 
 					websocket.addEventListener('message', listener);
-				} catch {
-					// no-op in case `cacheEntryRemoved` resolves before `cacheDataLoaded`,
-					// in which case `cacheDataLoaded` will throw
-				}
-				// cacheEntryRemoved will resolve when the cache subscription is no longer active
+				} catch {}
+
 				await cacheEntryRemoved;
-				// perform cleanup steps once the `cacheEntryRemoved` promise resolves
+
 				websocket.close();
 			},
 		}),
@@ -64,16 +56,10 @@ export const ws = createApi({
 				);
 				console.log(websocket, 'websocket');
 				try {
-					// wait for the initial query to resolve before proceeding
 					await cacheDataLoaded;
 
-					// when data is received from the socket connection to the server,
-					// if it is a message and for the appropriate channel,
-					// update our query result with the received message
 					const listener = (event: MessageEvent) => {
 						const data = JSON.parse(event.data);
-
-						// if (!isMessage(data) || data.channel !== arg) return;
 
 						updateCachedData((draft) => {
 							draft.orders = data.orders;
@@ -83,13 +69,10 @@ export const ws = createApi({
 					};
 
 					websocket.addEventListener('message', listener);
-				} catch {
-					// no-op in case `cacheEntryRemoved` resolves before `cacheDataLoaded`,
-					// in which case `cacheDataLoaded` will throw
-				}
-				// cacheEntryRemoved will resolve when the cache subscription is no longer active
+				} catch {}
+
 				await cacheEntryRemoved;
-				// perform cleanup steps once the `cacheEntryRemoved` promise resolves
+
 				websocket.close();
 			},
 		}),

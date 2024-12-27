@@ -2,12 +2,6 @@ import {
 	CurrencyIcon,
 	FormattedDate,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import img1 from '../../images/image_4ab5e13f.png';
-import img2 from '../../images/image_4c0a39fd.png';
-import img3 from '../../images/image_41fabcef.png';
-import img4 from '../../images/image_72bbf7a5.png';
-import img5 from '../../images/image_73acd7ee.png';
-import img6 from '../../images/image_14f1b52d.png';
 
 import styles from './order-profile.module.css';
 
@@ -22,19 +16,6 @@ export const OrderProfile: React.FC<{
 }> = ({ data, isReverse, ingData }) => {
 	const location = useLocation();
 
-	// const ingredients = data?.orders.map((el) => {
-	// 	return el.ingredients.map((item) => {
-	// 		return ingData?.find((i) => i._id === item);
-	// 	});
-	// });
-
-	// const orderIngredientsPrice = ingredients?.map((el) => {
-	// 	return el?.map((item) => {
-	// 		return item?.price;
-	// 	});
-	// });
-	// console.log(orderIngredientsPrice, 'orderIngredientsPrice');
-
 	if (!data) {
 		return <p>Loading...</p>;
 	}
@@ -47,16 +28,7 @@ export const OrderProfile: React.FC<{
 					to={`${location.pathname}/${el.number}`}
 					state={{ background: location }}
 					className={styles.link}>
-					<div
-						style={{
-							display: 'flex',
-							flexDirection: 'column',
-							backgroundColor: '#1c1c21',
-							borderRadius: '40px',
-							width: '584px',
-							overflow: 'auto',
-							marginBottom: '20px',
-						}}>
+					<div className={styles.wrapOrder}>
 						<div className='m-6'>
 							<div className={styles.order_header}>
 								<p className='text text_type_digits-default'>#{el.number}</p>

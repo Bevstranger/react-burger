@@ -127,3 +127,13 @@ li {
 	display: flex;
 	flex-direction: column;
 }
+
+.wrapOrder {
+	display: flex;
+	flex-direction: column;
+	background-color: #1c1c21;
+	border-radius: 40px;
+	width: 584px;
+	overflow: auto;
+	margin-bottom: 20px;
+}

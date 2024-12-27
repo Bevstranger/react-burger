@@ -3,9 +3,8 @@ import {
 	FormattedDate,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './order-info.module.css';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../services/store';
-import { TOrdersResponse, useGetOrdersQuery } from '../../services/api/ws';
+
+import { TOrdersResponse } from '../../services/api/ws';
 import { IDataItem } from '../../services/ingredientsSlice';
 import { useParams } from 'react-router-dom';
 
@@ -26,8 +25,6 @@ export const OrderInfoPage: React.FC<{
 			acc[current._id].count += 1;
 			return acc;
 		}, {});
-
-	console.log(ingredients, 'ingredientsOrderInfo');
 
 	const totalPrice = Object.values(ingredients || {}).reduce(
 		(acc, curr) => acc + curr.price * curr.count,
