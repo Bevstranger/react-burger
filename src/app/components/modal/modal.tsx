@@ -8,9 +8,10 @@ interface IModal {
 	children: React.ReactNode;
 	open: boolean;
 	onClose: (value: boolean) => void;
+	title?: string;
 }
 
-export const Modal: FC<IModal> = ({ children, open, onClose }) => {
+export const Modal: FC<IModal> = ({ children, open, onClose, title }) => {
 	useEffect(() => {
 		const handleEscapeKey = (event: KeyboardEvent) => {
 			if (event.code === 'Escape' || event.code === 'mouseDown') {
