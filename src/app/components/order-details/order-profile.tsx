@@ -21,14 +21,13 @@ export const OrderProfile: React.FC<{
 	ingData?: IDataItem[];
 }> = ({ data, isReverse, ingData }) => {
 	const location = useLocation();
-	console.log(ingData, 'ingData');
-	const ingredients = data?.orders.map((el) => {
-		return el.ingredients.map((item) => {
-			return ingData?.find((i) => i._id === item);
-		});
-	});
 
-	console.log(ingredients, 'ingredients');
+	// const ingredients = data?.orders.map((el) => {
+	// 	return el.ingredients.map((item) => {
+	// 		return ingData?.find((i) => i._id === item);
+	// 	});
+	// });
+
 	// const orderIngredientsPrice = ingredients?.map((el) => {
 	// 	return el?.map((item) => {
 	// 		return item?.price;
@@ -103,7 +102,7 @@ export const OrderProfile: React.FC<{
 										return (
 											<li key={index} className={styles.image_fill}>
 												<img
-													src={ingData?.find((i: any) => i._id === item)?.image}
+													src={ingData?.find((i) => i._id === item)?.image}
 													className={styles.image_position}
 												/>
 											</li>
@@ -114,10 +113,11 @@ export const OrderProfile: React.FC<{
 							<div className={styles.price}>
 								<span className={`text text_type_digits-default`}>
 									{el.ingredients
-										.map((item: any) => {
-											return ingData?.find((i: any) => i._id === item)?.price;
+										.map((item) => {
+											return ingData?.find((i) => i._id === item)?.price;
 										})
-										.reduce((acc: any, curr: any) => acc + curr, 0)}
+										.filter((item) => item !== undefined)
+										.reduce((acc, curr) => acc + curr, 0)}
 								</span>
 
 								<CurrencyIcon type='primary' />
