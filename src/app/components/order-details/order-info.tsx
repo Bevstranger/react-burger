@@ -38,7 +38,7 @@ export const OrderInfoPage: React.FC<{
 					className={`text text_type_digits-default mb-10 ${styles.number_order}`}>
 					#{order?.number}
 				</p>
-				<p className={`text text_type_main-medium mb-3`}>{order?.name}</p>
+				<p className={'text text_type_main-medium mb-3'}>{order?.name}</p>
 				<p
 					className={`text text_type_main-default mb-10 ${styles.status_order}`}>
 					{order?.status === 'created'
@@ -85,7 +85,7 @@ export const OrderInfoPage: React.FC<{
 					)}
 
 					<div className={styles.count_price}>
-						<span className={`text text_type_digits-default mr-2`}>
+						<span className={'text text_type_digits-default mr-2'}>
 							{totalPrice}
 						</span>
 						<CurrencyIcon type='primary' />

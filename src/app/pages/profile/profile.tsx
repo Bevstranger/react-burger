@@ -3,8 +3,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import styles from '../login.module.css';
 import { useLogoutMutation } from '../../services/api/auth';
-import { Outlet, useLocation } from 'react-router-dom';
-import { NavLink } from 'react-router-dom';
+import { Outlet, useLocation, NavLink } from 'react-router-dom';
 
 export const Profile = () => {
 	const location = useLocation();

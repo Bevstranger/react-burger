@@ -57,7 +57,8 @@ export const OrderProfile: React.FC<{
 									<li className={styles.image_fill}>
 										<img
 											style={{ opacity: 1 }}
-											src={''}
+											src=''
+											alt=''
 											className={styles.image_position}
 										/>
 										<span
@@ -75,6 +76,7 @@ export const OrderProfile: React.FC<{
 											<li key={index} className={styles.image_fill}>
 												<img
 													src={ingData?.find((i) => i._id === item)?.image}
+													alt=''
 													className={styles.image_position}
 												/>
 											</li>
@@ -83,7 +85,7 @@ export const OrderProfile: React.FC<{
 							</div>
 
 							<div className={styles.price}>
-								<span className={`text text_type_digits-default`}>
+								<span className={'text text_type_digits-default'}>
 									{el.ingredients
 										.map((item) => {
 											return ingData?.find((i) => i._id === item)?.price;

@@ -10,7 +10,7 @@ export const ws = createApi({
 	endpoints: (builder) => ({
 		getOrders: builder.query<TOrdersResponse, void>({
 			query: () => {
-				return `/orders`;
+				return '/orders';
 			},
 			async onCacheEntryAdded(
 				arg,
@@ -45,7 +45,7 @@ export const ws = createApi({
 		}),
 		getOrdersAll: builder.query<TOrdersResponse, void>({
 			query: () => {
-				return `/orders/all`;
+				return '/orders/all';
 			},
 			async onCacheEntryAdded(
 				arg,
@@ -79,9 +79,9 @@ export const ws = createApi({
 	}),
 });
 
-function isMessage(data: any): data is { channel: string } {
-	return typeof data === 'object' && 'channel' in data;
-}
+// function isMessage(data: any): data is { channel: string } {
+// 	return typeof data === 'object' && 'channel' in data;
+// }
 
 export const { useGetOrdersQuery, useGetOrdersAllQuery } = ws;
 

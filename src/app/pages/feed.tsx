@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../services/store';
 
 export const Feed = () => {
-	const { data, isLoading, error } = useGetOrdersAllQuery();
+	const { data } = useGetOrdersAllQuery();
 	const ingData = useSelector((state: RootState) => state.ing.data);
 
 	return (
