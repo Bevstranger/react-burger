@@ -8,10 +8,10 @@ interface IModal {
 	children: React.ReactNode;
 	open: boolean;
 	onClose: (value: boolean) => void;
-	title?: string;
+	// title?: string;
 }
 
-export const Modal: FC<IModal> = ({ children, open, onClose, title }) => {
+export const Modal: FC<IModal> = ({ children, open, onClose }) => {
 	useEffect(() => {
 		const handleEscapeKey = (event: KeyboardEvent) => {
 			if (event.code === 'Escape' || event.code === 'mouseDown') {
@@ -52,11 +52,11 @@ export const Modal: FC<IModal> = ({ children, open, onClose, title }) => {
 							}}
 						/>
 					</div>
-					{title && (
+					{/* {title && (
 						<div className={`text text_type_main-large ${styles.title} `}>
 							{title}
 						</div>
-					)}
+					)} */}
 					{children}
 				</div>
 			}

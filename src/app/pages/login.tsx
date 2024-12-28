@@ -11,8 +11,7 @@ import { useForm } from '../components/hooks/useForm';
 
 export function Login() {
 	const [login, { isSuccess, isLoading, isError, data }] = useLoginMutation();
-	console.log(data, 'data');
-	console.log(isSuccess, isLoading, isError, 'login');
+
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -30,7 +29,7 @@ export function Login() {
 
 	const onLogin = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		console.log('tuta');
+
 		await login({
 			email: values.email,
 			password: values.password,

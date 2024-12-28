@@ -9,6 +9,7 @@ import {
 	ResetPassword,
 	IngredientPage,
 	Orders,
+	OrderInfo,
 	Profile,
 } from './pages/index';
 
@@ -19,6 +20,7 @@ import {
 	OnlyAuth,
 	OnlyUnAuth,
 } from './components/protected-route/protected-route';
+import { Feed } from './pages/feed';
 
 export const App = () => {
 	const location = useLocation();
@@ -51,6 +53,7 @@ export const App = () => {
 						path='/reset-password'
 						element={<OnlyUnAuth element={<ResetPassword />} exact />}
 					/>
+					<Route path='/feeds' element={<Feed />} />
 					<Route
 						path='/profile'
 						element={<OnlyAuth element={<Profile />} exact />}>
@@ -58,13 +61,18 @@ export const App = () => {
 							index
 							element={<OnlyAuth element={<ProfileFormLoading />} />}
 						/>
+						<Route
+							path='/profile/orders'
+							element={<OnlyAuth element={<Orders />} exact />}
+						/>
 					</Route>
 					<Route
-						path='/orders'
-						element={<OnlyAuth element={<Orders />} exact />}
+						path='/profile/orders/:id'
+						element={<OnlyAuth element={<OrderInfo />} exact />}
 					/>
 
 					<Route path='/ingredients/:id' element={<IngredientPage />} />
+					<Route path='/feeds/:id' element={<OrderInfo />} />
 					<Route path='*' element={<NotFound404 />} />
 				</Routes>
 				{background && (
@@ -75,8 +83,33 @@ export const App = () => {
 								<Modal
 									open
 									onClose={handleModalClose}
-									title={'Детали ингредиента'}>
+									// title={'Детали ингредиента'}
+								>
 									<IngredientPage />
+								</Modal>
+							}
+						/>
+						<Route
+							path='/profile/orders/:id'
+							element={
+								<Modal
+									open
+									onClose={handleModalClose}
+									// title={'Детали заказа'}
+								>
+									<OrderInfo />
+								</Modal>
+							}
+						/>
+						<Route
+							path='/feeds/:id'
+							element={
+								<Modal
+									open
+									onClose={handleModalClose}
+									// title={'Детали заказа'}
+								>
+									<OrderInfo />
 								</Modal>
 							}
 						/>

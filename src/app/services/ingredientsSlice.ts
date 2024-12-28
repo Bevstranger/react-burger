@@ -10,7 +10,7 @@ export interface IIngredientState {
 	fetched: boolean;
 }
 
-interface IDataItem {
+export interface IDataItem {
 	_id: string;
 	name: string;
 	type: string;

@@ -1,5 +1,5 @@
 import styles from '../burger-ingredients/burger-ingredients.module.css';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../hooks/useSel-useDis';
 import { useParams } from 'react-router-dom';
 import { RootState } from '../../services/store';
 export const IngredientDetails = () => {
@@ -10,6 +10,9 @@ export const IngredientDetails = () => {
 
 	return (
 		<div className={styles.modalItem}>
+			<div className={styles.title}>
+				<h2>Детали ингредиента</h2>
+			</div>
 			<img src={ingredient?.image_large} alt={ingredient?.name} />
 			<p>{ingredient?.name}</p>
 			<p>

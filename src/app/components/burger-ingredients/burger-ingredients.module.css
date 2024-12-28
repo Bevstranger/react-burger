@@ -4,8 +4,9 @@
 
 .ingredients {
 	width: 600px;
-	height: 612px;
+	height: 600px;
 	overflow: auto;
+	scrollbar-width: thin;
 }
 
 .list {

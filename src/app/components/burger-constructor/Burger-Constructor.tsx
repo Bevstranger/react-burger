@@ -11,19 +11,20 @@ import styles from './burger-constructor.module.css';
 import ConstItem from './burger-constructor-item';
 import { Modal } from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../hooks/useSel-useDis';
 import { useAppDispatch, RootState } from '../../services/store';
 import {
 	addIngredient,
 	reorderIngredients,
 } from '../../services/constructSlice';
-import { postOrder } from '../../services/orderDetailsSlice';
+import { usePostOrderMutation } from '../../services/orderDetailsSlice';
 import { useGetUserData } from '../hooks/useGetUserData';
 import { useNavigate } from 'react-router-dom';
 
 function BurgerIngredients() {
+	const [postOrder, { data: order, isLoading, isError }] =
+		usePostOrderMutation();
 	const data = useGetUserData();
-	console.log(data, 'data construktor');
 	const navigate = useNavigate();
 
 	const dispatch = useAppDispatch();
@@ -46,6 +47,11 @@ function BurgerIngredients() {
 	const ingredientsIds = useMemo(
 		() => ingredients.map((item) => item._id),
 		[ingredients]
+	);
+	const bunsIds = useMemo(() => buns.map((item) => item._id), [buns]);
+	const allIds = useMemo(
+		() => [bunsIds[0], ...ingredientsIds, bunsIds[0]],
+		[ingredientsIds, bunsIds]
 	);
 
 	const [, dropTarget] = useDrop({
@@ -117,20 +123,33 @@ function BurgerIngredients() {
 				<div className={`${styles.total_icon} mr-10`}>
 					<CurrencyIcon type='primary' />
 				</div>
+
 				{showModal && (
 					<Modal open={showModal} onClose={setShowModal}>
-						<OrderDetails />
+						<OrderDetails
+							data={order}
+							isLoading={isLoading}
+							isError={isError}
+						/>
 					</Modal>
 				)}
 
 				<Button
-					disabled={ingredients.length === 0 || buns.length === 0}
+					disabled={ingredients.length === 0 || buns.length === 0 || isLoading}
 					htmlType='button'
 					type='primary'
 					onClick={() => {
-						data?.user
-							? (dispatch(postOrder(ingredientsIds)), setShowModal(!showModal))
-							: navigate('/login');
+						setShowModal(true);
+						if (data?.user) {
+							postOrder(allIds)
+								.unwrap()
+
+								.catch((error) =>
+									console.error('Failed to post order:', error)
+								);
+						} else {
+							navigate('/login');
+						}
 					}}>
 					Оформить заказ
 				</Button>
