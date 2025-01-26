@@ -1,6 +1,7 @@
+const testUrl = 'http://localhost:8080';
 describe('Stellar Burgers', () => {
 	it('Should open the page', () => {
-		cy.visit('http://localhost:8080');
+		cy.visit(testUrl);
 		// Add bun to the constructor
 		cy.get(
 			'[href="/ingredients/643d69a5c3f7b9001cfa093d"] > .mb-2 > .ml-4'
