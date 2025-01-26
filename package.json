@@ -74,7 +74,8 @@
 		"test": "jest",
 		"prepare": "husky install",
 		"commit": "yarn test && cz",
-		"deploy-script": "npm run build && scp -r ./dist/* walker@89.169.136.0:/var/www/html"
+		"deploy-script": "npm run build && scp -r ./dist/* walker@89.169.136.0:/var/www/html",
+		"cypress": "cypress open --config video=false"
 	},
 	"dependencies": {
 		"@reduxjs/toolkit": "^2.3.0",
