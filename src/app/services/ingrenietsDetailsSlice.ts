@@ -16,6 +16,7 @@ export const ingredientsDetailsSlice = createSlice({
 	reducers: {
 		setIngredientsDetails: (state, action) => {
 			return {
+				...state,
 				...action.payload,
 			};
 		},
