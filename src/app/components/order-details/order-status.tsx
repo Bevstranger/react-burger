@@ -44,7 +44,7 @@ export const OrderStatus = ({ data }: { data?: TOrdersResponse }) => {
 									style={{
 										display: 'grid',
 										gridTemplateColumns: 'repeat(2, 1fr)',
-										gap: '8px',
+										gap: '7px',
 									}}>
 									{readyOrders?.slice(0, 14).map((order) => (
 										<Link
