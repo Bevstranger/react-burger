@@ -17,7 +17,7 @@ export const ws = createApi({
 				{ cacheDataLoaded, cacheEntryRemoved, updateCachedData }
 			) {
 				const websocket = new WebSocket(
-					'wss://norma.nomoreparties.space/orders?token=' +
+					'wss://norma.education-services.ru/orders?token=' +
 						localStorage.getItem('accessToken')?.split(' ')[1]
 				);
 
@@ -51,7 +51,7 @@ export const ws = createApi({
 				{ cacheDataLoaded, cacheEntryRemoved, updateCachedData }
 			) {
 				const websocket = new WebSocket(
-					'wss://norma.nomoreparties.space/orders/all'
+					'wss://norma.education-services.ru/orders/all'
 				);
 
 				try {
