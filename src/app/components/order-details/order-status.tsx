@@ -42,9 +42,10 @@ export const OrderStatus = ({ data }: { data?: TOrdersResponse }) => {
 								<div
 									className='text text_type_digits-default'
 									style={{
-										display: 'grid',
-										gridTemplateColumns: 'repeat(2, 1fr)',
+										display: 'flex',
 										gap: '8px',
+										flexWrap: 'wrap',
+										width: '190px',
 									}}>
 									{readyOrders?.slice(0, 14).map((order) => (
 										<Link
