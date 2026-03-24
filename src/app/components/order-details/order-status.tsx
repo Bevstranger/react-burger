@@ -43,7 +43,7 @@ export const OrderStatus = ({ data }: { data?: TOrdersResponse }) => {
 									className='text text_type_digits-default'
 									style={{
 										display: 'grid',
-										gridTemplateColumns: 'repeat(1, 1fr)',
+										gridTemplateColumns: 'repeat(2, 1fr)',
 										gap: '8px',
 									}}>
 									{readyOrders?.slice(0, 14).map((order) => (
