@@ -16,6 +16,7 @@ function AppHeader() {
 
 	useEffect(() => {
 		dispatch(ingredientsRequest());
+		document.title = 'Stellar Burgers';
 	}, [dispatch]);
 
 	return (

@@ -39,7 +39,8 @@ export const App = () => {
 					<Route path='/' element={<Home />} />
 					<Route
 						path='/login'
-						element={<OnlyUnAuth element={<Login />} exact />}
+						element={<Login />}
+						// element={<OnlyUnAuth element={<Login />} exact />}
 					/>
 					<Route
 						path='/register'

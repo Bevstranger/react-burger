@@ -18,13 +18,13 @@ import {
 	reorderIngredients,
 } from '../../services/constructSlice';
 import { usePostOrderMutation } from '../../services/orderDetailsSlice';
-import { useGetUserData } from '../hooks/useGetUserData';
+// import { useGetUserData } from '../hooks/useGetUserData';
 import { useNavigate } from 'react-router-dom';
 
 function BurgerIngredients() {
 	const [postOrder, { data: order, isLoading, isError }] =
 		usePostOrderMutation();
-	const data = useGetUserData();
+	// const data = useGetUserData();
 	const navigate = useNavigate();
 
 	const dispatch = useAppDispatch();
@@ -140,7 +140,7 @@ function BurgerIngredients() {
 					type='primary'
 					onClick={() => {
 						setShowModal(true);
-						if (data?.user) {
+						if (localStorage.getItem('accessToken')) {
 							postOrder(allIds)
 								.unwrap()
 

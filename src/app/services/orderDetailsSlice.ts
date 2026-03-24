@@ -11,6 +11,12 @@ export interface IOrderInfo {
 	success: boolean;
 }
 
+export const initialState = { 
+  orders: [], 
+  status: 'idle', 
+  error: null 
+};
+
 export const orderDetailsApi = createApi({
 	reducerPath: 'orderDetailsApi',
 	baseQuery: fetchBaseQuery({
