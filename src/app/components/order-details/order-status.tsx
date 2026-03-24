@@ -41,7 +41,11 @@ export const OrderStatus = ({ data }: { data?: TOrdersResponse }) => {
 							<li className='mt-2 mr-8'>
 								<div
 									className='text text_type_digits-default'
-									style={{ display: 'grid', grid-template-columns: 'repeat(2, 1fr)', gap: '8px'}}>
+									style={{
+										display: 'grid',
+										gridTemplateColumns: 'repeat(2, 1fr)',
+										gap: '8px',
+									}}>
 									{readyOrders?.slice(0, 14).map((order) => (
 										<Link
 											key={order?.number}
