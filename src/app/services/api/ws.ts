@@ -18,7 +18,7 @@ export const ws = createApi({
 			) {
 				const websocket = new WebSocket(
 					'wss://norma.education-services.ru/orders?token=' +
-						localStorage.getItem('accessToken')?.split(' ')[1]
+						localStorage.getItem('accessToken')
 				);
 
 				try {

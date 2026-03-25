@@ -3,7 +3,7 @@ import React, { useRef, useCallback, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import styles from './burger-ingredients.module.css';
 import Item from './burger-ingredients-item';
-import { useSelector } from '../hooks/useSel-useDis';
+import { useSelector } from '../hooks/useRedux';
 import { RootState } from '../../services/store';
 
 function BurgerIngredients() {

@@ -5,7 +5,7 @@ import {
 
 import styles from './burger-constructor.module.css';
 import { deleteIngredient } from '../../services/constructSlice';
-import { useDispatch } from '../hooks/useSel-useDis';
+import { useDispatch } from '../hooks/useRedux';
 import { useRef, FC } from 'react';
 import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd';
 

@@ -11,12 +11,17 @@ import styles from './burger-constructor.module.css';
 import ConstItem from './burger-constructor-item';
 import { Modal } from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
-import { useSelector } from '../hooks/useSel-useDis';
-import { useAppDispatch, RootState } from '../../services/store';
+import { useSelector } from '../hooks/useRedux';
+import {
+	useAppDispatch,
+	RootState,
+	default as store,
+} from '../../services/store';
 import {
 	addIngredient,
 	reorderIngredients,
 } from '../../services/constructSlice';
+import { IDataItem } from '../../services/ingredientsSlice';
 import { usePostOrderMutation } from '../../services/orderDetailsSlice';
 import { useGetUserData } from '../hooks/useGetUserData';
 import { useNavigate } from 'react-router-dom';
@@ -28,7 +33,6 @@ function BurgerIngredients() {
 	const navigate = useNavigate();
 
 	const dispatch = useAppDispatch();
-	const dataIng = useSelector((state: RootState) => state.ing.data);
 	const buns = useSelector((state: RootState) => state.construct.data.buns);
 	const ingredients = useSelector(
 		(state: RootState) => state.construct.data.ingredients
@@ -57,9 +61,13 @@ function BurgerIngredients() {
 	const [, dropTarget] = useDrop({
 		accept: 'ingredients',
 		drop(item: { id: string }) {
-			const dragElement = dataIng.find((el) => el._id === item.id);
-
-			dispatch(addIngredient({ ...dragElement, id: uuid() }));
+			const state = store.getState();
+			const dragElement = state.ing.data.find(
+				(el: IDataItem) => el._id === item.id
+			);
+			if (dragElement) {
+				dispatch(addIngredient({ ...dragElement, id: uuid() }));
+			}
 		},
 	});
 
@@ -139,11 +147,12 @@ function BurgerIngredients() {
 					htmlType='button'
 					type='primary'
 					onClick={() => {
-						setShowModal(true);
 						if (data?.user) {
 							postOrder(allIds)
 								.unwrap()
-
+								.then(() => {
+									setShowModal(true);
+								})
 								.catch((error) =>
 									console.error('Failed to post order:', error)
 								);

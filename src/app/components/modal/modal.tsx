@@ -14,7 +14,7 @@ interface IModal {
 export const Modal: FC<IModal> = ({ children, open, onClose }) => {
 	useEffect(() => {
 		const handleEscapeKey = (event: KeyboardEvent) => {
-			if (event.code === 'Escape' || event.code === 'mouseDown') {
+			if (event.code === 'Escape') {
 				onClose(false);
 			}
 		};
@@ -61,6 +61,6 @@ export const Modal: FC<IModal> = ({ children, open, onClose }) => {
 				</div>
 			}
 		</>,
-		document.getElementById('modal')!
+		document.getElementById('modal') as HTMLElement
 	);
 };

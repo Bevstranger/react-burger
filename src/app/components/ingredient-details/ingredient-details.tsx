@@ -1,5 +1,5 @@
 import styles from '../burger-ingredients/burger-ingredients.module.css';
-import { useSelector } from '../hooks/useSel-useDis';
+import { useSelector } from '../hooks/useRedux';
 import { useParams } from 'react-router-dom';
 import { RootState } from '../../services/store';
 export const IngredientDetails = () => {
