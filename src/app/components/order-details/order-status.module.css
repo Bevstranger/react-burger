@@ -55,3 +55,10 @@
 .ready_section {
 	width: 200px;
 }
+
+.orders_numbers_container {
+	display: flex;
+	gap: 8px;
+	flex-wrap: wrap;
+	width: 190px;
+}

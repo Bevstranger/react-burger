@@ -18,8 +18,7 @@ export const OrderStatus = ({ data }: { data?: TOrdersResponse }) => {
 						<ul className={styles.ul_orders}>
 							<li className='mt-2 mr-8'>
 								<div
-									className='text text_type_digits-default'
-									style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+									className={`text text_type_digits-default ${styles.orders_numbers_container}`}>
 									{doneOrders?.slice(0, 14).map((order) => (
 										<Link
 											key={order?.number}
@@ -40,13 +39,7 @@ export const OrderStatus = ({ data }: { data?: TOrdersResponse }) => {
 						<ul className={styles.ul_orders}>
 							<li className='mt-2 mr-8'>
 								<div
-									className='text text_type_digits-default'
-									style={{
-										display: 'flex',
-										gap: '8px',
-										flexWrap: 'wrap',
-										width: '190px !important',
-									}}>
+									className={`text text_type_digits-default ${styles.orders_numbers_container}`}>
 									{readyOrders?.slice(0, 14).map((order) => (
 										<Link
 											key={order?.number}
