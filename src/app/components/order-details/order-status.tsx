@@ -45,7 +45,7 @@ export const OrderStatus = ({ data }: { data?: TOrdersResponse }) => {
 										display: 'flex',
 										gap: '8px',
 										flexWrap: 'wrap',
-										width: '190px',
+										width: '190px !important',
 									}}>
 									{readyOrders?.slice(0, 14).map((order) => (
 										<Link
