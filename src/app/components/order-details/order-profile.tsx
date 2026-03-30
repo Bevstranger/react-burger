@@ -20,7 +20,11 @@ export const OrderProfile: React.FC<{
 		return <p>Loading...</p>;
 	}
 
-	const orders = data.orders ?? [];
+	if (data.orders === undefined) {
+		return <p>Loading...</p>;
+	}
+
+	const orders = Array.isArray(data.orders) ? data.orders : [];
 
 	if (!orders.length) {
 		return <p>Заказы не найдены</p>;
