@@ -28,9 +28,9 @@ export const ws = createApi({
 						const data = JSON.parse(event.data);
 
 						updateCachedData((draft) => {
-							draft.orders = data.orders;
-							draft.total = data.total;
-							draft.totalToday = data.totalToday;
+							draft.orders = data.orders ?? draft.orders ?? [];
+							draft.total = data.total ?? draft.total ?? 0;
+							draft.totalToday = data.totalToday ?? draft.totalToday ?? 0;
 						});
 					};
 
@@ -61,9 +61,9 @@ export const ws = createApi({
 						const data = JSON.parse(event.data);
 
 						updateCachedData((draft) => {
-							draft.orders = data.orders;
-							draft.total = data.total;
-							draft.totalToday = data.totalToday;
+							draft.orders = data.orders ?? draft.orders ?? [];
+							draft.total = data.total ?? draft.total ?? 0;
+							draft.totalToday = data.totalToday ?? draft.totalToday ?? 0;
 						});
 					};
 
