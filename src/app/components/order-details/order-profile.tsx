@@ -20,9 +20,15 @@ export const OrderProfile: React.FC<{
 		return <p>Loading...</p>;
 	}
 
+	const orders = data.orders ?? [];
+
+	if (!orders.length) {
+		return <p>Заказы не найдены</p>;
+	}
+
 	return (
 		<section className={!isReverse ? styles.scrollReverse : styles.scroll}>
-			{data?.orders.map((el) => (
+			{orders.map((el) => (
 				<Link
 					key={el.number}
 					to={`${location.pathname}/${el.number}`}

@@ -12,7 +12,7 @@ export const OrderStatus = ({ data }: { data?: TOrdersResponse }) => {
 		<>
 			<div className={styles.list_orders}>
 				<section className={styles.ready_section}>
-					<p className='text text_type_main-medium'>Готовы:</p>
+					<p className='text text_type_main-small'>Готовы:</p>
 					<div
 						className={`${styles.list_number_orders} ${styles.ready_orders}`}>
 						<ul className={styles.ul_orders}>
