@@ -4,10 +4,12 @@ import { TOrdersResponse } from '../../services/api/ws';
 
 export const OrderStatus = ({ data }: { data?: TOrdersResponse }) => {
 	const location = useLocation();
-	const doneOrders = data?.orders?.filter((order) => order?.status === 'done');
-	const readyOrders = data?.orders?.filter(
-		(order) => order?.status === 'pending' || order?.status === 'created'
-	);
+	const doneOrders =
+		data?.orders?.filter((order) => order?.status === 'done') ?? [];
+	const readyOrders =
+		data?.orders?.filter(
+			(order) => order?.status === 'pending' || order?.status === 'created'
+		) ?? [];
 	return (
 		<>
 			<div className={styles.list_orders}>
