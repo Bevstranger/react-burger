@@ -5,7 +5,6 @@ import { constructSlice } from './constructSlice';
 import { ingredientsDetailsSlice } from './ingrenietsDetailsSlice';
 import { orderDetailsApi } from './orderDetailsSlice';
 import { authApi } from './api/auth';
-import { ws } from './api/ws';
 
 const store = configureStore({
 	reducer: {
@@ -15,13 +14,11 @@ const store = configureStore({
 
 		[authApi.reducerPath]: authApi.reducer,
 		[orderDetailsApi.reducerPath]: orderDetailsApi.reducer,
-		[ws.reducerPath]: ws.reducer,
 	},
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware().concat(
 			authApi.middleware,
-			orderDetailsApi.middleware,
-			ws.middleware
+			orderDetailsApi.middleware
 		),
 });
 

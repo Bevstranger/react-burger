@@ -1,5 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { BASE_URL } from '../../api/api';
+import { supabase } from '../../api/supabase';
+import {
+	registerUser as registerUserApi,
+	loginUser as loginUserApi,
+	logoutUser as logoutUserApi,
+	getCurrentUser as getCurrentUserApi,
+} from '../../api/api';
 
 export type TAuthResponse = {
 	success: boolean;
@@ -29,28 +35,43 @@ export const authApi = createApi({
 	tagTypes: ['User'],
 	reducerPath: 'authApi',
 	baseQuery: fetchBaseQuery({
-		baseUrl: BASE_URL,
+		baseUrl: '',
 		prepareHeaders,
 	}),
 	endpoints: (builder) => ({
 		login: builder.mutation<TAuthResponse, { email: string; password: string }>(
 			{
-				query: (body) => ({
-					url: '/auth/login',
-					method: 'POST',
-					body,
-				}),
-				transformResponse: (response: TAuthResponse): TAuthResponse => {
-					const { refreshToken, accessToken, success } = response;
-					if (success && refreshToken && accessToken) {
-						localStorage.setItem('refreshToken', refreshToken);
+				queryFn: async ({ email, password }) => {
+					try {
+						const { data, error } = await loginUserApi(email, password);
+						if (error) throw new Error(error.message);
+
+						const accessToken = data.session?.access_token || email;
 						localStorage.setItem('accessToken', accessToken);
-					} else {
-						throw new Error(
-							'Login failed: missing expected data, check your credentials'
+						localStorage.setItem(
+							'refreshToken',
+							data.session?.refresh_token || ''
 						);
+
+						return {
+							data: {
+								success: true,
+								accessToken,
+								refreshToken: data.session?.refresh_token || '',
+								user: {
+									email: data.user?.email || email,
+									name: data.user?.user_metadata?.name || '',
+								},
+							},
+						};
+					} catch (error) {
+						return {
+							error: {
+								status: 500,
+								data: (error as Error).message,
+							},
+						};
 					}
-					return response;
 				},
 			}
 		),
@@ -58,96 +79,87 @@ export const authApi = createApi({
 			TAuthResponse,
 			{ name: string; email: string; password: string }
 		>({
-			query: (body) => ({
-				url: '/auth/register',
-				method: 'POST',
-				body,
-			}),
-			transformResponse: (response: TAuthResponse) => {
-				const { refreshToken, accessToken, success } = response;
-				if (success && refreshToken && accessToken) {
-					localStorage.setItem('refreshToken', refreshToken);
+			queryFn: async ({ name, email, password }) => {
+				try {
+					const { data, error } = await registerUserApi(email, password, name);
+					if (error) throw new Error(error.message);
+
+					const accessToken = data.session?.access_token || email;
 					localStorage.setItem('accessToken', accessToken);
+					localStorage.setItem(
+						'refreshToken',
+						data.session?.refresh_token || ''
+					);
+
+					return {
+						data: {
+							success: true,
+							accessToken,
+							refreshToken: data.session?.refresh_token || '',
+							user: {
+								email,
+								name,
+							},
+						},
+					};
+				} catch (error) {
+					return {
+						error: {
+							status: 500,
+							data: (error as Error).message,
+						},
+					};
 				}
-				return response;
 			},
 		}),
-		logout: builder.mutation<TLogoutResponse, { token: string }>({
-			query: (body) => ({
-				url: '/auth/logout',
-				method: 'POST',
-				body,
-			}),
-			transformResponse: (response: TLogoutResponse) => {
-				const { success } = response;
-				if (success) {
+		logout: builder.mutation<TLogoutResponse, void>({
+			queryFn: async () => {
+				try {
+					await logoutUserApi();
 					localStorage.removeItem('refreshToken');
 					localStorage.removeItem('accessToken');
-				} else {
-					console.error('Failed to logout:', response);
+					return { data: { success: true, message: 'Logged out' } };
+				} catch (error) {
+					return {
+						error: {
+							status: 500,
+							data: (error as Error).message,
+						},
+					};
 				}
-
-				return response;
 			},
 			invalidatesTags: ['User'],
 		}),
-		refresh: builder.mutation({
-			query: ({ token }) => {
-				return {
-					url: '/auth/token',
-					method: 'POST',
-					body: {
-						token,
-					},
-				};
+		getUser: builder.query<{ email: string; name: string }, void>({
+			queryFn: async () => {
+				try {
+					const user = await getCurrentUserApi();
+					if (!user) {
+						return { data: { email: '', name: '' } };
+					}
+					return {
+						data: {
+							email: user.email || '',
+							name: (user.user_metadata as any)?.name || '',
+						},
+					};
+				} catch (error) {
+					return {
+						error: {
+							status: 500,
+							data: (error as Error).message,
+						},
+					};
+				}
 			},
-		}),
-		forgotPassword: builder.mutation({
-			query: (body) => ({
-				url: '/password-reset',
-				method: 'POST',
-				body,
-			}),
-		}),
-		resetPassword: builder.mutation({
-			query: (body) => ({
-				url: '/password-reset/reset',
-				method: 'POST',
-				body,
-			}),
-		}),
-		updateUser: builder.mutation({
-			query: (body) => ({
-				url: '/auth/user',
-				method: 'PATCH',
-				body,
-			}),
-		}),
-		getUser: builder.query({
-			query: () => ({
-				url: '/auth/user',
-				method: 'GET',
-			}),
 			providesTags: ['User'],
 		}),
 	}),
 });
 
-// {
-// 	"status": 401,
-// 	"data": {
-// 	"success": false,
-// 		"message": "You should be authorised"
-// }
-// }
-
 export const {
 	useLoginMutation,
 	useRegisterMutation,
 	useLogoutMutation,
-	useRefreshMutation,
-	useForgotPasswordMutation,
-	useResetPasswordMutation,
-	useUpdateUserMutation,
 	useGetUserQuery,
 } = authApi;

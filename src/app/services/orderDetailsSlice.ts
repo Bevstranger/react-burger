@@ -1,9 +1,9 @@
-import { BASE_URL } from '../api/api';
-import { resetIngredients } from './constructSlice';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { prepareHeaders } from './api/auth';
+import { createOrder, getOrders } from '../api/api';
+import { resetIngredients } from './constructSlice';
 
 export interface IOrderInfo {
+	id: number;
 	name: string;
 	order: {
 		number: number;
@@ -13,24 +13,47 @@ export interface IOrderInfo {
 
 export const orderDetailsApi = createApi({
 	reducerPath: 'orderDetailsApi',
-	baseQuery: fetchBaseQuery({
-		baseUrl: BASE_URL,
-		prepareHeaders,
-	}),
+	baseQuery: fetchBaseQuery({ baseUrl: '' }),
 	endpoints: (builder) => ({
 		postOrder: builder.mutation<IOrderInfo, string[]>({
-			query: (orderDetails) => ({
-				url: '/orders',
-				method: 'POST',
-				body: { ingredients: orderDetails },
-			}),
-
-			async onQueryStarted(orderDetails, { dispatch, queryFulfilled }) {
-				await queryFulfilled;
-				dispatch(resetIngredients());
+			queryFn: async (ingredients, { dispatch }) => {
+				try {
+					const order = await createOrder(ingredients);
+					dispatch(resetIngredients());
+					return {
+						data: {
+							id: order.id,
+							name: order.name || '',
+							order: { number: order.id },
+							success: true,
+						},
+					};
+				} catch (error) {
+					return {
+						error: {
+							status: 500,
+							data: (error as Error).message,
+						},
+					};
+				}
+			},
+		}),
+		getOrders: builder.query<any[], void>({
+			queryFn: async () => {
+				try {
+					const orders = await getOrders();
+					return { data: orders };
+				} catch (error) {
+					return {
+						error: {
+							status: 500,
+							data: (error as Error).message,
+						},
+					};
+				}
 			},
 		}),
 	}),
 });
 
-export const { usePostOrderMutation } = orderDetailsApi;
+export const { usePostOrderMutation, useGetOrdersQuery } = orderDetailsApi;

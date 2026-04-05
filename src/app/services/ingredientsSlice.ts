@@ -1,7 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getData, BASE_URL } from '../api/api';
-
-const URL = `${BASE_URL}/ingredients`;
+import { getIngredients } from '../api/api';
 
 export interface IIngredientState {
 	data: IDataItem[];
@@ -11,6 +9,7 @@ export interface IIngredientState {
 }
 
 export interface IDataItem {
+	id: number;
 	_id: string;
 	name: string;
 	type: string;
@@ -22,14 +21,17 @@ export interface IDataItem {
 	image: string;
 	image_mobile: string;
 	image_large: string;
-	__v: number;
+	__v?: number;
 }
 
 export const ingredientsRequest = createAsyncThunk(
 	'ing/ingredientsRequest',
 	async () => {
-		const response = await getData(URL);
-		return response.data;
+		const data = await getIngredients();
+		return data.map((item) => ({
+			...item,
+			_id: String(item.id),
+		}));
 	}
 );
 
